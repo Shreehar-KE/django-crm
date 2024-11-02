@@ -7,7 +7,13 @@ module.exports = {
     '../**/forms.py'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#2eb8b8',
+        primary_dark: '#196767',
+        primary_light: '#6fdcdc',
+      },
+    },
   },
   plugins: [],
 }
