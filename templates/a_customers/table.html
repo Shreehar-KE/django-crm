@@ -86,15 +86,16 @@
           </tr>
         </thead>
         <tbody>
+          {% for contact in contacts %}
           <tr class="border-b hover:bg-gray-200">
-            <td class="hidden sm:table-cell px-4 py-3">1</td>
+            <td class="hidden sm:table-cell px-4 py-3">{{forloop.counter}}</td>
             <td class="px-4 py-3">#256</td>
             <th scope="row" class="w-full max-w-0 sm:max-w-none sm:w-auto px-4 py-3 font-medium text-gray-900 whitespace-nowrap truncate ">
-              Chandler Bing</th>
-            <td class="hidden lg:max-w-40 lg:table-cell px-4 py-3 truncate">chandler@gmail.com</td>
+              {{contact}}</th>
+            <td class="hidden lg:max-w-40 lg:table-cell px-4 py-3 truncate">{{contact.email}}</td>
             <td class="px-4 py-3">
-              <span class="inline-flex items-center rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-medium text-yellow-800">
-                Prospect
+              <span class="inline-flex items-center rounded {% if contact.type == 'LEAD' %}bg-blue-200 text-blue-800{% elif contact.type == 'PROSPECT' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
+                {{contact.type}}
               </span>
             </td>
             <td x-data="{dropdownOpen: false}" @click.away="dropdownOpen = false" class="relative px-4 py-3 flex items-center justify-end">
@@ -123,6 +124,7 @@
               </div>
             </td>
           </tr>
+          {% endfor%}
         </tbody>
       </table>
     </div>
