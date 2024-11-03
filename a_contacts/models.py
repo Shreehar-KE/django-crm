@@ -21,7 +21,7 @@ class Contact(models.Model):
         return self.first_name.title() + ' ' + self.last_name.title()
 
     def get_absolute_url(self):
-        return reverse("a_customers:customer-detail", kwargs={"pk": self.pk})
+        return reverse("a_contacts:customer-detail", kwargs={"pk": self.pk})
 
 
 class LeadManager(models.Manager):
@@ -38,7 +38,7 @@ class Lead(Contact):
     objects = LeadManager()
 
     def get_absolute_url(self):
-        return reverse("a_customers:contact-detail", kwargs={"pk": self.pk})
+        return reverse("a_contacts:contact-detail", kwargs={"pk": self.pk})
 
 
 class ProspectManager(models.Manager):
@@ -55,7 +55,7 @@ class Prospect(Contact):
     objects = ProspectManager()
 
     def get_absolute_url(self):
-        return reverse("a_customers:contact-detail", kwargs={"pk": self.pk})
+        return reverse("a_contacts:contact-detail", kwargs={"pk": self.pk})
 
 
 class CustomerManager(models.Manager):
@@ -72,4 +72,4 @@ class Customer(Contact):
     objects = CustomerManager()
 
     def get_absolute_url(self):
-        return reverse("a_customers:contact-detail", kwargs={"pk": self.pk})
+        return reverse("a_contacts:contact-detail", kwargs={"pk": self.pk})
