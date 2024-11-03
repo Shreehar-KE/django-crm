@@ -100,7 +100,7 @@ h2 {
 }
 
 .hoverlist>*, .menulist>*{
-  @apply p-2 block hover:bg-gray-200 rounded-md transition duration-150;
+  @apply p-2 block hover:bg-gray-200 rounded-lg transition duration-150;
 }
 
 .hoverlist>* {
@@ -111,6 +111,6 @@ h2 {
   @apply hover:underline;
 }
 
-.menulist>*>a {
-  @apply flex items-center;
+.menulist>*>a , .menulist>a{
+  @apply flex items-center justify-start;
 }
