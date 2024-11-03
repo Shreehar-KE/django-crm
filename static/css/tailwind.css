@@ -100,7 +100,7 @@ h2 {
 }
 
 .hoverlist>*, .menulist>*{
-  @apply p-2 block hover:bg-gray-200 rounded-lg transition duration-150;
+  @apply p-2 text-sm block hover:bg-gray-200 rounded-lg transition duration-150;
 }
 
 .hoverlist>* {

@@ -3,7 +3,7 @@
   class="md:flex items-center justify-between [&>*]:px-8 h-16 bg-gray-800 text-white sticky top-0 z-50 select-none">
   <div class="flex items-center justify-between h-16">
     <logo>
-      <a class="flex items-center gap-1" href="">
+      <a class="flex items-center gap-1" href="{% url 'a_contacts:home' %}">
         <img class="h-6" src="{% static 'img/logo.svg' %}" alt="infinity-logo">
         <span class="font-sans font-extrabold">CRM</span>
       </a>
@@ -11,7 +11,7 @@
     <mobileicon class="md:hidden">
       <a @click="mobileNavOpen = !mobileNavOpen"
         class="size-12 flex items-center justify-center cursor-pointer select-none hover:bg-gray-700 rounded-lg">
-        <img x-show="!mobileNavOpen" class="size-6" src=".{% static 'img/menu.svg' %}" alt="hamburger-menu">
+        <img x-show="!mobileNavOpen" class="size-6" src="{% static 'img/menu.svg' %}" alt="hamburger-menu">
         <img x-show="mobileNavOpen" @click.away="mobileNavOpen = false" x-cloak class="size-6" src="{% static 'img/close.svg' %}"
           alt="close-button">
       </a>
@@ -29,15 +29,16 @@
           <img class="h-6 outline-double outline-gray-700 rounded-full object-cover bg-primary" src="{% static 'img/user.svg'%}"
             alt="user-avatar">
           User
-          <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}" alt="">
+          <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}"
+            alt="">
         </a>
-        <div x-show="dropdownOpen" x-cloak class="absolute right-0 bg-white text-black shadow rounded-lg w-28 p-2 z-20"
+        <div x-show="dropdownOpen" x-cloak class="absolute top-14 right-0 bg-gray-50 text-gray-700 shadow rounded-lg w-40 p-2 z-20"
           x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
           x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
           x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
           <ul class="menulist">
             <li><a href="">My Profile</a></li>
-            <li><a href="">Log Out</a></li>
+            <li class="hover:bg-red-200"><a href="">Log Out</a></li>
           </ul>
         </div>
       </li>

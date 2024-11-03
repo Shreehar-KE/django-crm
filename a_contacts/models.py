@@ -5,20 +5,32 @@ from django.urls import reverse
 class Contact(models.Model):
 
     class Type(models.TextChoices):
-        LEAD = 'LEAD', 'lead'
-        PROSPECT = 'PROSPECT', 'prospect'
-        CUSTOMER = 'CUSTOMER', 'customer'
+        LEAD = 'LEAD', 'Lead'
+        PROSPECT = 'PROSPECT', 'Prospect'
+        CUSTOMER = 'CUSTOMER', 'Customer'
 
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
+    location = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(
-        max_length=8, choices=Type.choices)
-
-    date_time_added = models.DateTimeField(auto_now_add=True)
+        max_length=8, choices=Type.choices, default="Lead")
+    contact_id = models.BigIntegerField(
+        unique=True, null=True, blank=True, editable=False)
+    date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return self.first_name.title() + ' ' + self.last_name.title()
+
+    def save(self, *args, **kwargs):
+        if not self.contact_id:
+            last_contact = Contact.objects.order_by('-contact_id').first()
+            if last_contact:
+                next_id = last_contact.contact_id + 1
+            else:
+                next_id = 1
+            self.contact_id = next_id
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("a_contacts:customer-detail", kwargs={"pk": self.pk})
