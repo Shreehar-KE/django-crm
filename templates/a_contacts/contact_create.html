@@ -4,7 +4,7 @@
 {% block content %}
 <section class="bg-white ">
   <div class="py-8 px-4 mx-auto max-w-2xl ">
-    <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Add a new contact</h2>
+    <h2 class="mb-8 text-2xl font-bold text-gray-900 ">{{ heading }}</h2>
     <form action="#" method="post">
       {% csrf_token %}
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -41,9 +41,10 @@
         </div>      
       </div>
       <button type="submit"
-        class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary rounded-lg focus:ring-4 focus:ring-primary-200  hover:bg-primary-800">
-        Add Contact
+        class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
+        {{ button_text }}
       </button>
+      <a class="inline-flex items-center px-5 py-2.5 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
     </form>
   </div>
 </section>

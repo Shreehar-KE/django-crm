@@ -17,8 +17,8 @@
                 clip-rule="evenodd" />
             </svg>
           </div>
-          <input type="text" id="simple-search"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2"
+          <input type="text" id="simple-search" 
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full pl-10 p-2"
             placeholder="Search" required="">
         </div>
       </form>
@@ -28,8 +28,9 @@
       <div x-data="{dropdownOpen: false}" @click.away="dropdownOpen = false" class="relative flex items-center space-x-3 w-full md:w-auto">
         <a href="{% url 'a_contacts:contact-create' %}" class="w-full md:w-auto">
           <button @click="dropdownOpen = false" type="button"
-            class="w-full flex items-center justify-center text-white bg-primary hover:bg-primary_dark font-medium rounded-lg text-sm px-4 py-2 transition-transform duration-300 active:scale-95">
-
+          class="w-full md:w-auto justify-center inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700
+          select-none transition-transform duration-300 active:scale-95">
+          <!-- class="w-full flex items-center justify-center text-white bg-primary-500 hover:bg-primary-700 font-medium rounded-lg text-sm px-4 py-2 transition-transform duration-300 active:scale-95"> -->
             <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path clip-rule="evenodd" fill-rule="evenodd"
                 d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
@@ -57,15 +58,15 @@
           x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
           <ul class="space-y-2 text-sm select-none" aria-labelledby="filterDropdownButton">
             <li class="flex items-center">
-              <input id="lead" type="checkbox" value="" class="w-4 h-4 border-gray-300 rounded-lg text-primary">
+              <input id="lead" type="checkbox" value="" class="w-4 h-4 border-gray-300 rounded-lg">
               <label for="lead" class="ml-2 text-sm p-2 text-gray-700 ">Leads (56)</label>
             </li>
             <li class="flex items-center">
-              <input id="prospect" type="checkbox" value="" class="w-4 h-4  border-gray-300 rounded-lg text-primary">
+              <input id="prospect" type="checkbox" value="" class="w-4 h-4  border-gray-300 rounded-lg">
               <label for="prospect" class="ml-2 text-sm p-2 text-gray-700">Prospects (16)</label>
             </li>
             <li class="flex items-center">
-              <input id="customer" type="checkbox" value="" class="w-4 h-4  border-gray-300 rounded-lg text-primary">
+              <input id="customer" type="checkbox" value="" class="w-4 h-4  border-gray-300 rounded-lg">
               <label for="customer" class="ml-2 text-sm p-2 text-gray-700 ">Customers (49)</label>
             </li>
           </ul>
@@ -106,7 +107,7 @@
           </td>
           <td x-data="{dropdownOpen: false}" @click.away="dropdownOpen = false" class="relative px-4 py-3 flex items-center justify-end">
             <button @click="dropdownOpen = !dropdownOpen"
-              class="relative inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded-lg focus:outline-none"
+              class="relative inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded-lg "
               type="button">
               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -119,10 +120,10 @@
               x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
               <ul class="menulist pb-1 text-sm text-gray-700" aria-labelledby="dropdown-button">
                 <li>
-                  <a href="#" class="">View</a>
+                  <a href="" class="">View</a>
                 </li>
                 <li>
-                  <a href="#" class="">Edit</a>
+                  <a href="{% url 'a_contacts:contact-update' contact.id %}" class="">Edit</a>
                 </li>
               </ul>
               <div class="menulist pt-1">
