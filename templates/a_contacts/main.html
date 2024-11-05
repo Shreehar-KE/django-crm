@@ -96,7 +96,7 @@
           <td class="hidden sm:table-cell px-4 py-3">{{forloop.counter}}</td>
           <td class="px-4 py-3">{{ contact.contact_id|format_contact_id }}</td>
           <th scope="row" class="w-full max-w-0 sm:max-w-none sm:w-auto px-4 py-3 font-medium text-gray-900 whitespace-nowrap truncate ">
-            {{contact}}</th>
+            <a href="{% url 'a_contacts:contact-detail' contact.id %}">{{contact}}</a></th>
           <td class="hidden sm:max-w-40 sm:table-cell px-4 py-3 truncate">{{contact.email}}</td>
           <td class="hidden lg:max-w-30 lg:table-cell px-4 py-3 truncate">{{contact.location}}</td>
           <td class="px-4 py-3">
@@ -120,10 +120,10 @@
               x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
               <ul class="menulist pb-1 text-sm text-gray-700" aria-labelledby="dropdown-button">
                 <li>
-                  <a href="" class="">View</a>
+                  <a href="{% url 'a_contacts:contact-detail' contact.pk %}" class="">View</a>
                 </li>
                 <li>
-                  <a href="{% url 'a_contacts:contact-update' contact.id %}" class="">Edit</a>
+                  <a href="{% url 'a_contacts:contact-update' contact.pk %}" class="">Edit</a>
                 </li>
               </ul>
               <div class="menulist pt-1">
@@ -139,4 +139,4 @@
 
 </div>
 
-{% endblock %}
+{% endblock content%}

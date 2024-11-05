@@ -37,7 +37,7 @@ class Contact(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("a_contacts:customer-detail", kwargs={"pk": self.pk})
+        return reverse("a_contacts:contact-detail", kwargs={"pk": self.pk})
 
 
 class LeadManager(models.Manager):

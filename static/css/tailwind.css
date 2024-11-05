@@ -84,7 +84,7 @@ h2 {
 }
 
 .navitems>li>a {
-  @apply h-12 px-4 hover:bg-gray-700 rounded-lg flex items-center gap-2
+  @apply h-12 px-4 hover:bg-gray-700 rounded-lg flex items-center gap-2 cursor-pointer;
 }
 
 .card {
@@ -112,5 +112,5 @@ h2 {
 }
 
 .menulist>*>a , .menulist>a{
-  @apply flex items-center justify-start;
+  @apply flex items-center justify-start cursor-pointer;
 }

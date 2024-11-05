@@ -1,13 +1,13 @@
 {% extends 'layouts/a.html' %}
 {% load static %}
 
-{% block title %}Create Contact -{% endblock title %}
+{% block title %}Update Contact -{% endblock title %}
 
 {% block content %}
 <section class="bg-white ">
-  <div class="py-8 px-4 mx-auto max-w-2xl ">
-    <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Create Contact</h2>
-    <form  method="post">
+  <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+    <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Update Contact</h2>
+    <form method="post">
       {% csrf_token %}
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <!-- <div class="sm:cols-span-4">
@@ -33,17 +33,17 @@
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
           {{ form.email }}
         </div>
+        <div>
+          <label for="category" class="block mb-2 text-sm font-medium text-gray-900 ">Category</label>
+          {{ form.type }}
+        </div>
         <div class="w-full">
           <label for="location" class="block mb-2 text-sm font-medium text-gray-900 ">Location</label>
           {{ form.location }}
         </div>
-        <div>
-          <label for="category" class="block mb-2 text-sm font-medium text-gray-900 ">Category</label>
-          {{ form.type }}
-        </div>      
       </div>
       <button type="submit"
-        class="w-[80px] justify-center inline-flex items-center px-4 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
+        class=" w-[80px] justify-center inline-flex items-center px-4 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
         Save
       </button>
       <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
