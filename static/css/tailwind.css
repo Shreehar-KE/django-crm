@@ -17,19 +17,11 @@
   --primary-hover: #196767;
 }
 
-/* h1 {
-  font-size: 4rem;
-  line-height: 1.2;
-  font-weight: bold;
-  margin-bottom: 1rem;
+tr.htmx-swapping td {
+  opacity: 0;
+  transition: opacity 1s ease-out;
 }
 
-h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  line-height: 2rem;
-  margin-bottom: 0.75rem;
-} */
 
 .button {
   display: inline-flex;

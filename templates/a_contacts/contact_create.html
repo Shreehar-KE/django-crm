@@ -1,4 +1,4 @@
-{% extends 'layouts/a.html' %}
+{% extends 'layouts/b.html' %}
 {% load static %}
 
 {% block title %}Create Contact -{% endblock title %}
@@ -43,7 +43,7 @@
         </div>      
       </div>
       <button type="submit"
-        class="w-[80px] justify-center inline-flex items-center px-4 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
+        class="w-[80px]  px-4 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
         Save
       </button>
       <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
