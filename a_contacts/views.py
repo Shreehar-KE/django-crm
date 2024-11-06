@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -13,13 +13,16 @@ class HomePageView(ListView):
     ordering = "first_name"
     template_name = 'a_contacts/home.html'
 
-    def get_context_data(self, **kwargs): 
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['lead_count'] = Contact.objects.filter(type='LEAD').count()
-        context['prospect_count'] = Contact.objects.filter(type='PROSPECT').count()
-        context['customer_count'] = Contact.objects.filter(type='CUSTOMER').count()
+        context['prospect_count'] = Contact.objects.filter(
+            type='PROSPECT').count()
+        context['customer_count'] = Contact.objects.filter(
+            type='CUSTOMER').count()
 
         return context
+
 
 class ContactCreateView(CreateView):
     form_class = ContactForm
@@ -40,9 +43,18 @@ class ContactDetailView(DetailView):
 
 def contactDeleteView(request, pk):
     contact = get_object_or_404(Contact, id=pk)
+    origin_url = request.META["HTTP_REFERER"]
 
     if (request.method == 'POST'):
         contact.delete()
-        return redirect('a_contacts:home')
+        if "contact" not in origin_url:
+            return HttpResponse('', status=200)
+        else:
+            return redirect('a_contacts:home')
 
-    return render(request, 'partials/contact_delete_confirm.html', {'contact': contact})
+    context = {'contact': contact}
+
+    if "contact" not in origin_url:
+        context['homepage'] = True
+
+    return render(request, 'partials/contact_delete_confirm.html', context)

@@ -17,7 +17,11 @@
   --primary-hover: #196767;
 }
 
-tr.htmx-swapping td {
+tr.htmx-swapping {
+  @apply bg-red-200;
+}
+
+tr.htmx-swapping td, tr.htmx-swapping th{
   opacity: 0;
   transition: opacity 1s ease-out;
 }
