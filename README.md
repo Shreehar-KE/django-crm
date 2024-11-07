@@ -1,6 +1,7 @@
 ## Django CRM
-A web app for managing contacts using Django for the backend, HTMX for SPA functionality, and
-TailwindCSS, featuring role-based access control (RBAC) and employee management, 2-Factor Authentication and email invitations, contact promotion workflow allowing users to manage leads, prospects, and customers.
+A web app for managing contacts using Django for the backend, HTMX for SPA functionality, and TailwindCSS, featuring role-based access control (RBAC) and employee management, 2-Factor Authentication and email invitations, contact promotion workflow allowing users to manage leads, prospects, and customers.
+
+**Live Demo:** https://dj-crm-v3.el.r.appspot.com/
 
 ### Tech Stack
 - Django
