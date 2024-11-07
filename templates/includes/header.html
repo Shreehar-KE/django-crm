@@ -12,7 +12,7 @@
       <a @click="mobileNavOpen = !mobileNavOpen"
         class="size-12 flex items-center justify-center cursor-pointer select-none hover:bg-gray-700 rounded-lg">
         <img x-show="!mobileNavOpen" class="size-6" src="{% static 'img/menu.svg' %}" alt="hamburger-menu">
-        <img x-show="mobileNavOpen" @click.away="mobileNavOpen = false" x-cloak class="size-6" src="{% static 'img/close.svg' %}"
+        <img x-show="mobileNavOpen" x-cloak class="size-6" src="{% static 'img/close.svg' %}"
           alt="close-button">
       </a>
     </mobileicon>
