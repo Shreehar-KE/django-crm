@@ -46,6 +46,9 @@ A web app for managing contacts using Django for the backend, HTMX for SPA funct
    cd node
    npm install
    npm run tailwind
+   
+   # To run tailwind in watch mode
+   npm run tailwind-watch
 
    # To minify the CSS
    npm run minify
