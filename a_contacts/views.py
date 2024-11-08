@@ -13,6 +13,7 @@ from faker import Faker
 class HomePageView(ListView):
     model = Contact
     search_text = ''
+    is_result = True
     context_object_name = "contacts"
     ordering = "first_name"
     template_name = 'a_contacts/home.html'
@@ -42,20 +43,32 @@ class HomePageView(ListView):
         self.search_text = self.request.GET.get("search_text", "")
         self.search_text = urllib.parse.unquote(self.search_text)
         self.search_text = self.search_text.strip()
+        search_text_length = len(self.search_text)
 
-        if self.search_text and len(self.search_text) > 3:
+        if self.search_text and search_text_length > 3:
             if self.search_text.startswith('#'):
                 q = self.search_text[1:].lstrip('0')
-                return Contact.objects.filter(contact_id=q)
+                try:
+                    id_length = len(q)
 
-            parts = self.search_text.split()
+                    if (id_length in (1, 2) and search_text_length == 4) or (id_length >= 3 and search_text_length == id_length+1):
+                        queryset = Contact.objects.filter(contact_id=q)
+                except:
+                    self.is_result = False
+            else: 
+                parts = self.search_text.split()
 
-            q = Q(first_name__icontains=parts[0]) | Q(last_name__icontains=parts[0]) | Q(
-                email__icontains=parts[0]) | Q(location__icontains=parts[0]) | Q(type__icontains=parts[0])
-            for part in parts[1:]:
-                q |= Q(first_name__icontains=part) | Q(last_name__icontains=part) | Q(
-                    email__icontains=part) | Q(location__icontains=part) | Q(type__icontains=part)
-            return Contact.objects.filter(q)
+                q = Q(first_name__icontains=parts[0]) | Q(last_name__icontains=parts[0]) | Q(
+                    email__icontains=parts[0]) | Q(location__icontains=parts[0]) | Q(type__icontains=parts[0])
+                for part in parts[1:]:
+                    q |= Q(first_name__icontains=part) | Q(last_name__icontains=part) | Q(
+                        email__icontains=part) | Q(location__icontains=part) | Q(type__icontains=part)
+                queryset = Contact.objects.filter(q)
+                
+            if queryset:
+                return queryset
+            else:
+                self.is_result = False
         else:
             return super().get_queryset()
 
@@ -67,6 +80,7 @@ class HomePageView(ListView):
         context['customer_count'] = Contact.objects.filter(
             type='CUSTOMER').count()
         context['search_text'] = self.search_text
+        context['is_result'] = self.is_result
 
         return context
 

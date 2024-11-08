@@ -17,9 +17,9 @@
             </svg>
           </div>
           <input type="text" id="simple-search" name="search_text" value="{{ search_text }}" hx-get="{% url 'a_contacts:home' %}"
-            hx-trigger="keyup changed delay:500ms" hx-target="#table-body" hx-swap="innerHTML" hx-push-url="true"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full pl-10 p-2"
-          placeholder="Search" required="">
+            hx-trigger="keyup changed delay:500ms" hx-target="#table-body" hx-swap="outerHTML" hx-push-url="true"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full pl-10 p-2"
+            placeholder="Search" required="">
         </div>
       </form>
     </div>
@@ -88,9 +88,8 @@
           </th>
         </tr>
       </thead>
-      <tbody id="table-body">
-        {% include 'includes/table_data.html' %}
-      </tbody>
+
+      {% include 'includes/table_data.html' %}
     </table>
   </div>
 
