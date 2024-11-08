@@ -12,4 +12,5 @@ urlpatterns = [
          name='contact-update'),
     path('contact/<uuid:pk>/delete/', views.contactDeleteView,
          name='contact-delete'),
+    path('contact/create/fake', views.fillContactForm, name='fake-contact-create'),
 ]

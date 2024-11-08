@@ -680,6 +680,10 @@ video {
   margin-left: 0.5rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -706,6 +710,10 @@ video {
 
 .block {
   display: block;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .inline {
@@ -1615,6 +1623,11 @@ tr.htmx-swapping td, tr.htmx-swapping th{
     padding-left: 4rem;
     padding-right: 4rem;
   }
+
+  .sm\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1695,6 +1708,11 @@ tr.htmx-swapping td, tr.htmx-swapping th{
 
   .md\:p-5 {
     padding: 1.25rem;
+  }
+
+  .md\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   .md\:text-2xl {

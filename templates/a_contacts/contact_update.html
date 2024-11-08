@@ -5,7 +5,7 @@
 
 {% block content %}
 <section class="bg-white ">
-  <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+  <div class="py-8 px-4 mx-auto max-w-2xl sm:py-16">
     <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Update Contact</h2>
     <form method="post">
       {% csrf_token %}
@@ -34,7 +34,7 @@
           {{ form.email }}
         </div>
         <div>
-          <label for="category" class="block mb-2 text-sm font-medium text-gray-900 ">Category</label>
+          <label for="type" class="block mb-2 text-sm font-medium text-gray-900 ">Type</label>
           {{ form.type }}
         </div>
         <div class="w-full">

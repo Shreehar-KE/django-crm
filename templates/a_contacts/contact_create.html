@@ -5,48 +5,20 @@
 
 {% block content %}
 <section class="bg-white ">
-  <div class="py-8 px-4 mx-auto max-w-2xl ">
+  <div class="py-8 sm:py-16 px-4 mx-auto max-w-2xl ">
     <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Create Contact</h2>
-    <form  method="post">
+    <form method="post">
       {% csrf_token %}
-      <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-        <!-- <div class="sm:cols-span-4">
-          <div class="inline">
-            <label for=" profile-image" class="block mb-2 text-sm font-medium text-gray-900 ">Profile Image</label>
-            <img id="profile-image" class="w-10 h-10 rounded-full bg-primary" src="{% static 'img/logo.png' %}" alt="Rounded avatar">
-          </div>
-          <div class="inline">
-            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-              aria-describedby="file_input_help" id="file_input" type="file">
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
-          </div>
-        </div> -->
-        <div class="w-full">
-          <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>
-          {{ form.first_name }}
-        </div>
-        <div class="w-full">
-          <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 ">Last Name</label>
-          {{ form.last_name }}
-        </div>
-        <div class="sm:col-span-2">
-          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
-          {{ form.email }}
-        </div>
-        <div class="w-full">
-          <label for="location" class="block mb-2 text-sm font-medium text-gray-900 ">Location</label>
-          {{ form.location }}
-        </div>
-        <div>
-          <label for="category" class="block mb-2 text-sm font-medium text-gray-900 ">Category</label>
-          {{ form.type }}
-        </div>      
-      </div>
+      {% include 'partials/contact_create_form.html' %}
       <button type="submit"
         class="w-[80px]  px-4 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
         Save
       </button>
-      <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+      <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95"
+        href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+      <img src="{% static 'img/dice.svg' %}" title="Fill Random Data?" hx-get="{% url 'a_contacts:fake-contact-create' %}" hx-target="#contact-create-form" hx-swap="outerHTML"
+        class="inline-block ml-4 h-8 select-none transition-transform duration-300 active:scale-95">
+      </img>
     </form>
   </div>
 </section>
