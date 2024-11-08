@@ -165,3 +165,5 @@ node_modules/
 staticfiles/
 todo.md
 a_contacts/migrations/
+test.html
+test_partial.html
