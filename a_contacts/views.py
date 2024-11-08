@@ -30,18 +30,20 @@ class ContactCreateView(CreateView):
     form_class = ContactForm
     template_name = 'a_contacts/contact_create.html'
 
-
 def fillContactForm(request):
     faker = Faker()
     fake_name = faker.name()
+    
     first_name = fake_name.split()[0]
     last_name = fake_name.split()[1]
+    types = [Contact.Type.LEAD, Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
+    
     fake_contact = {
         "first_name" : first_name,
         "last_name" : last_name,
         "email" : f'{first_name.lower()}.{last_name.lower()}@email.com',
         "location" : faker.country(),
-        "type" : random.choice(['Lead', 'Prospect', 'Customer'])
+        "type": random.choice(types)
     }
     form = ContactForm(initial=fake_contact)
 

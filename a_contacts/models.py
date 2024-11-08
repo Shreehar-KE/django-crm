@@ -18,7 +18,7 @@ class Contact(models.Model):
     email = models.EmailField(unique=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(
-        max_length=8, choices=Type.choices, default="Lead")
+        max_length=8, choices=Type.choices, default=Type.LEAD)
     contact_id = models.BigIntegerField(
         unique=True, null=True, blank=True, editable=False)
     date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
