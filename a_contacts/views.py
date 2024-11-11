@@ -1,4 +1,5 @@
 import random
+import time
 import urllib
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -15,17 +16,18 @@ class HomePageView(ListView):
     search_text = ''
     is_result = True
     context_object_name = "contacts"
-    ordering = "first_name"
+    ordering = "contact_id"
     template_name = 'a_contacts/home.html'
+    paginate_by = 10
 
     def render_to_response(self, context, **response_kwargs):
         response_kwargs.setdefault("content_type", self.content_type)
 
         if self.request.headers.get('Hx-Request'):
-
+            time.sleep(1)
             return self.response_class(
                 request=self.request,
-                template="includes/table_data.html",
+                template="partials/table_row.html",
                 context=context,
                 using=self.template_engine,
                 **response_kwargs,
@@ -74,6 +76,12 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        page_obj = context['page_obj']
+        context['page_offset'] = (page_obj.number - 1) * self.paginate_by
+        context['more_contacts'] = page_obj.has_next()
+        if page_obj.has_next():
+            context['next_page'] = page_obj.next_page_number()
+
         context['lead_count'] = Contact.objects.filter(type='LEAD').count()
         context['prospect_count'] = Contact.objects.filter(
             type='PROSPECT').count()

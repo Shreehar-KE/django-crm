@@ -1,0 +1,51 @@
+{% load templatetags %}
+{% for contact in contacts %}
+<tr class="border-b hover:bg-gray-100" id="contact-{{contact.contact_id}}">
+  <td class="hidden sm:table-cell px-4 py-3">{{ forloop.counter|add:page_offset }}</td>
+  <td class="px-4 py-3">{{ contact.contact_id|format_contact_id }}</td>
+  <th scope="row" class="w-full max-w-0 sm:max-w-none sm:w-auto px-4 py-3 font-medium text-gray-900 whitespace-nowrap truncate ">
+    <a href="{% url 'a_contacts:contact-detail' contact.id %}">{{contact}}</a>
+  </th>
+  <td class="hidden sm:max-w-40 sm:table-cell px-4 py-3 truncate">{{contact.email}}</td>
+  <td class="hidden lg:max-w-30 lg:table-cell px-4 py-3 truncate">{{contact.location}}</td>
+  <td class="px-4 py-3">
+    <span
+      class="inline-flex items-center rounded {% if contact.type == 'LEAD' %}bg-blue-200 text-blue-800{% elif contact.type == 'PROSPECT' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
+      {{contact.type}}
+    </span>
+  </td>
+  <td x-data="{dropdownOpen: false}" @click.away="dropdownOpen = false" class="relative px-4 py-3 flex items-center justify-end">
+    <button @click="dropdownOpen = !dropdownOpen"
+      class="relative inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded-lg "
+      type="button">
+      <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+      </svg>
+    </button>
+    <div x-show="dropdownOpen" x-cloak
+      class="absolute top-11 z-10 w-40 p-2 bg-gray-50 rounded-lg divide-y divide-gray-200 shadow select-none"
+      x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+      x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
+      x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
+      <ul class="menulist pb-1 text-sm text-gray-700" aria-labelledby="dropdown-button">
+        <li>
+          <a @click="dropdownOpen = false" href="{% url 'a_contacts:contact-detail' contact.pk %}" class="">View</a>
+        </li>
+        <li>
+          <a @click="dropdownOpen = false" href="{% url 'a_contacts:contact-update' contact.pk %}" class="">Edit</a>
+        </li>
+      </ul>
+      <div class="menulist pt-1">
+        <a hx-get="{% url 'a_contacts:contact-delete' contact.pk %}" hx-target="#modal" hx-swap="outerHTML"
+          @click="showModal = true, dropdownOpen = false" class="text-sm text-gray-700 hover:bg-red-200">Delete</a>
+      </div>
+    </div>
+  </td>
+</tr>
+{% endfor%}
+{% if more_contacts %}
+<tr hx-get="{% url 'a_contacts:home' %}?page={{next_page}}" hx-indicator="#spinner" hx-trigger="revealed" hx-swap="outerHTML">
+</tr>
+{% endif %}
+
+

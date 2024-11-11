@@ -660,10 +660,6 @@ video {
   margin-bottom: 1rem;
 }
 
-.mb-40 {
-  margin-bottom: 10rem;
-}
-
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -1390,6 +1386,22 @@ tr.htmx-swapping {
 tr.htmx-swapping td, tr.htmx-swapping th{
   opacity: 0;
   transition: opacity 1s ease-out;
+}
+
+.htmx-indicator {
+  display: block;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+  display: block;
+  opacity: 1;
+}
+
+.htmx-request.htmx-indicator {
+  display: block;
+  opacity: 1;
 }
 
 .button {

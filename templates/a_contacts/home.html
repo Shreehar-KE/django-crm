@@ -1,4 +1,5 @@
 {% extends 'layouts/a.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -17,7 +18,7 @@
             </svg>
           </div>
           <input type="text" id="simple-search" name="search_text" value="{{ search_text }}" hx-get="{% url 'a_contacts:home' %}"
-            hx-trigger="keyup changed delay:500ms" hx-target="#table-body" hx-swap="outerHTML" hx-push-url="true"
+            hx-trigger="keyup changed delay:500ms" hx-target="#table-body" hx-swap="innerHTML" hx-push-url="true"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full pl-10 p-2"
             placeholder="Search" required="">
         </div>
@@ -74,23 +75,8 @@
     </div>
   </div>
   <div class="overflow-x-auto">
-    <table class="w-full text-sm text-left text-gray-500 mb-40">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-        <tr>
-          <th scope="col" class="hidden sm:table-cell px-4 py-3">S.No.</th>
-          <th scope="col" class="px-4 py-3">ID</th>
-          <th scope="col" class="px-4 py-3">Name</th>
-          <th scope="col" class="hidden sm:table-cell px-4 py-3">Email</th>
-          <th scope="col" class="hidden lg:table-cell px-4 py-3">Location</th>
-          <th scope="col" class="px-4 py-3">Type</th>
-          <th scope="col" class="px-4 py-3">
-            <span class="sr-only">Actions</span>
-          </th>
-        </tr>
-      </thead>
-
-      {% include 'includes/table_data.html' %}
-    </table>
+    {% include 'includes/table.html' %}
+    <img id="spinner" src="{% static 'img/bars.svg' %}" class="mx-auto h-10 htmx-indicator" />
   </div>
 
 </div>
