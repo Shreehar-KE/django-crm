@@ -23,6 +23,9 @@ class Contact(models.Model):
         unique=True, null=True, blank=True, editable=False)
     date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
 
+    class Meta:
+        ordering = ["first_name"]
+
     def __str__(self):
         return self.first_name.title() + ' ' + self.last_name.title()
 
