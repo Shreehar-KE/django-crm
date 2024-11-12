@@ -1,4 +1,5 @@
 {% load templatetags %}
+{% if is_result %}
 {% for contact in contacts %}
 <tr class="border-b hover:bg-gray-100" id="contact-{{contact.contact_id}}">
   <td class="hidden sm:table-cell px-4 py-3">{{ forloop.counter|add:page_offset }}</td>
@@ -44,8 +45,14 @@
 </tr>
 {% endfor%}
 {% if more_contacts %}
-<tr hx-get="{% url 'a_contacts:home' %}?page={{next_page}}" hx-indicator="#spinner" hx-trigger="revealed" hx-swap="outerHTML">
+<tr hx-get="{% url 'a_contacts:home' %}?page={{next_page}}" hx-indicator="#spinner" hx-trigger="revealed" hx-swap="outerHTML"
+  hx-include="#filter-form, #search-form">
 </tr>
 {% endif %}
-
-
+{% else %}
+<tr class="border-b hover:bg-gray-100">
+  <th scope="row" colspan="7" class="text-center px-4 py-3 font-bold text-xl text-gray-900 whitespace-nowrap truncate ">
+    No Contacts Found
+  </th>
+</tr>
+{% endif %}

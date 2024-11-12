@@ -29,7 +29,7 @@ tr.htmx-swapping td, tr.htmx-swapping th{
 .htmx-indicator {
   display: block;
   opacity: 0;
-  transition: opacity 200ms ease-in;
+  transition: opacity 100ms ease-in;
 }
 
 .htmx-request .htmx-indicator {
@@ -110,16 +110,8 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   padding-bottom: 1rem;
 }
 
-.hoverlist>*, .menulist>*{
+.menulist>*{
   @apply p-2 text-sm block hover:bg-gray-200 rounded-lg transition duration-150;
-}
-
-.hoverlist>* {
-  @apply cursor-pointer select-none;
-}
-
-.hoverlist>*>a {
-  @apply hover:underline;
 }
 
 .menulist>*>a , .menulist>a{

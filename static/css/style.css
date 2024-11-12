@@ -1391,7 +1391,7 @@ tr.htmx-swapping td, tr.htmx-swapping th{
 .htmx-indicator {
   display: block;
   opacity: 0;
-  transition: opacity 200ms ease-in;
+  transition: opacity 100ms ease-in;
 }
 
 .htmx-request .htmx-indicator {
@@ -1484,7 +1484,7 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   padding-bottom: 1rem;
 }
 
-.hoverlist>*, .menulist>* {
+.menulist>* {
   display: block;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -1497,20 +1497,9 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   transition-duration: 150ms;
 }
 
-.hoverlist>*:hover, .menulist>*:hover {
+.menulist>*:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
-.hoverlist>* {
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-
-.hoverlist>*>a:hover {
-  text-decoration-line: underline;
 }
 
 .menulist>*>a , .menulist>a {
