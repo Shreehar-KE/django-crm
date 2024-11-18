@@ -22,14 +22,17 @@ class Contact(models.Model):
     contact_id = models.BigIntegerField(
         unique=True, null=True, blank=True, editable=False)
     date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
+    name = models.CharField(max_length=512, null=True,
+                            blank=True, editable=False)
 
     class Meta:
-        ordering = ["first_name"]
+        ordering = ["name"]
 
     def __str__(self):
         return self.first_name.title() + ' ' + self.last_name.title()
 
     def save(self, *args, **kwargs):
+        self.name = f"{self.first_name.lower()} {self.last_name.lower()}"
         if not self.contact_id:
             last_contact = Contact.objects.order_by('-contact_id').first()
             if last_contact:

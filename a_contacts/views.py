@@ -18,16 +18,19 @@ class HomePageView(ListView):
     is_search_text = False
     context_object_name = "contacts"
     template_name = 'a_contacts/home.html'
-    paginate_by = 20
+    paginate_by = 5
+    sort_by = None
+    order = None
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        self.sort_by = request.GET.get("sort-radio")
+        self.order = request.GET.get("order-radio")
         self.selected_filters = request.GET.getlist('type')
-        self.search_text = self.request.GET.get("search_text", "")
+        self.search_text = request.GET.get("search_text", "")
         if self.search_text:
             self.search_text = urllib.parse.unquote(self.search_text)
             self.search_text = self.search_text.strip()
             self.is_search_text = True
-            print('search: ',self.is_search_text)
         return super().get(request, *args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):
@@ -58,7 +61,14 @@ class HomePageView(ListView):
             
         else:
             contacts = super().get_queryset()
-            
+
+        if self.sort_by:
+            if self.order == 'asc':
+                contacts = contacts.order_by(self.sort_by)
+            else:
+                contacts = contacts.order_by(f'-{self.sort_by}')
+
+
         if self.search_text and search_text_length > 3:
             if self.search_text.startswith('#'):
                 q = self.search_text[1:].lstrip('0')

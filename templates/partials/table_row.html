@@ -8,7 +8,7 @@
     <a href="{% url 'a_contacts:contact-detail' contact.id %}">{{contact}}</a>
   </th>
   <td class="hidden sm:max-w-40 sm:table-cell px-4 py-3 truncate">{{contact.email}}</td>
-  <td class="hidden lg:max-w-30 lg:table-cell px-4 py-3 truncate">{{contact.location}}</td>
+  <td class="hidden lg:max-w-20 lg:table-cell px-4 py-3 truncate">{{contact.location}}</td>
   <td class="px-4 py-3">
     <span
       class="inline-flex items-center rounded {% if contact.type == 'LEAD' %}bg-blue-200 text-blue-800{% elif contact.type == 'PROSPECT' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
@@ -46,7 +46,7 @@
 {% endfor%}
 {% if more_contacts %}
 <tr hx-get="{% url 'a_contacts:home' %}?page={{next_page}}" hx-indicator="#spinner" hx-trigger="revealed" hx-swap="outerHTML"
-  hx-include="#filter-form, #search-form">
+  hx-include="#filter-form, #search-form, #sort-form">
 </tr>
 {% endif %}
 {% else %}
