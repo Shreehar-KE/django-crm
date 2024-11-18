@@ -18,7 +18,7 @@ class HomePageView(ListView):
     is_search_text = False
     context_object_name = "contacts"
     template_name = 'a_contacts/home.html'
-    paginate_by = 5
+    paginate_by = 20
     sort_by = None
     order = None
 
