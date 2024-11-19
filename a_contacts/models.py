@@ -15,6 +15,7 @@ class Contact(models.Model):
         editable=False)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='avatars/', null=True, blank=True)
     email = models.EmailField(unique=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(

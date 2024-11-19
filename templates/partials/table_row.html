@@ -1,15 +1,21 @@
 {% load templatetags %}
+{% load static %}
 {% if is_result %}
 {% for contact in contacts %}
 <tr class="border-b hover:bg-gray-100" id="contact-{{contact.contact_id}}">
-  <td class="hidden sm:table-cell px-4 py-3">{{ forloop.counter|add:page_offset }}</td>
-  <td class="px-4 py-3">{{ contact.contact_id|format_contact_id }}</td>
-  <th scope="row" class="w-full max-w-0 sm:max-w-none sm:w-auto px-4 py-3 font-medium text-gray-900 whitespace-nowrap truncate ">
-    <a href="{% url 'a_contacts:contact-detail' contact.id %}">{{contact}}</a>
+  <td class="hidden w-4 sm:table-cell px-4 py-3">{{ forloop.counter|add:page_offset }}</td>
+  <td class=" max-w-8 px-4 py-3">{{ contact.contact_id|format_contact_id }}</td>
+  <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap ">
+    {% if contact.image %}
+    <img class="rounded-full h-10 w-10 border border-gray-300 object-cover hidden sm:block" src="{{ contact.image.url }}" alt="">
+    {% else %}
+    <img class="rounded-full h-10 w-10 border border-gray-300 object-cover hidden sm:block" src="{% static 'img/image-placeholder.png' %}" alt="">
+    {% endif %}
+    <a class="truncate" href="{% url 'a_contacts:contact-detail' contact.id %}">{{contact}}</a>
   </th>
-  <td class="hidden sm:max-w-40 sm:table-cell px-4 py-3 truncate">{{contact.email}}</td>
-  <td class="hidden lg:max-w-20 lg:table-cell px-4 py-3 truncate">{{contact.location}}</td>
-  <td class="px-4 py-3">
+  <td class="hidden max-w-28 sm:table-cell px-4 py-3 truncate">{{contact.email}}</td>
+  <td class="hidden max-w-16 lg:table-cell px-4 py-3 truncate">{{contact.location}}</td>
+  <td class="w-8 px-4 py-3">
     <span
       class="inline-flex items-center rounded {% if contact.type == 'LEAD' %}bg-blue-200 text-blue-800{% elif contact.type == 'PROSPECT' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
       {{contact.type}}
@@ -17,7 +23,7 @@
   </td>
   <td x-data="{dropdownOpen: false}" @click.away="dropdownOpen = false" class="relative px-4 py-3 flex items-center justify-end">
     <button @click="dropdownOpen = !dropdownOpen"
-      class="relative inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded-lg "
+      class="flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded-lg "
       type="button">
       <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />

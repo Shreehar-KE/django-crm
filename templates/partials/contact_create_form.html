@@ -1,16 +1,17 @@
 {% load static %}
 <div id="contact-create-form" class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-  <!-- <div class="sm:cols-span-4">
-          <div class="inline">
-            <label for=" profile-image" class="block mb-2 text-sm font-medium text-gray-900 ">Profile Image</label>
-            <img id="profile-image" class="w-10 h-10 rounded-full bg-primary" src="{% static 'img/logo.png' %}" alt="Rounded avatar">
-          </div>
-          <div class="inline">
-            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-              aria-describedby="file_input_help" id="file_input" type="file">
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
-          </div>
-        </div> -->
+  <div class="sm:col-span-2 flex justify-between">
+    <div>
+      <label for="profile-image" class="block w-fit mb-2 text-sm font-medium text-gray-900">Profile Image</label>
+      <img id="profile-image" class="w-20 h-20 border border-gray-500 object-cover rounded-full bg-primary"
+        src="{% static 'img/image-placeholder.png' %}" alt="Profile Image">
+    </div>
+    <div class="self-end">
+      <label class="block mb-2 text-sm font-medium text-gray-900 text-right" for="file_input">Upload file</label>
+      {{ form.image }}
+      <p class="mt-1 text-xs text-gray-500 text-right" id="file_input_help">Supports only PNG, JPG or WEBP files.</p>
+    </div>
+  </div>
   <div class="w-full">
     <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>
     {{ form.first_name }}

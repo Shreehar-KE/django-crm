@@ -7,7 +7,7 @@
 <section class="bg-white ">
   <div class="py-8 sm:py-16 px-4 mx-auto max-w-2xl ">
     <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Create Contact</h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% include 'partials/contact_create_form.html' %}
       <button type="submit"

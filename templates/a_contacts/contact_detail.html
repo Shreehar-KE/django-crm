@@ -8,7 +8,11 @@
 <section class="bg-white">
   <div class="py-8 mx-auto md:max-w-[70%] md:py-16 flex flex-col md:flex-row items-center justify-between gap-10">
     <div class="w-1/3">
-      <img class="object-center border" src="{% static 'img/image-placeholder.png' %}" alt="">
+      {% if contact.image %}
+      <img class="object-contain border border-gray-300 size-fit" src="{{ contact.image.url }}" alt="">
+      {% else %}
+      <img class="object-contain border border-gray-300 size-fit" src="{% static 'img/image-placeholder.png' %}" alt="">
+      {% endif %}
     </div>
     <div class="w-2/3">
       <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl ">{{ contact }}</h2>
