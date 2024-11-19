@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Select, ClearableFileInput
+from django.forms import ModelForm, TextInput, Select, FileInput
 from .models import Contact
 
 
@@ -27,7 +27,7 @@ class ContactForm(ModelForm):
                 'id': 'type',
                 'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5',
             }),
-            'image': ClearableFileInput(attrs={
+            'image': FileInput(attrs={
                 'id': 'image-input',
                 'class': 'block w-full text-sm text-gray-900 border border-gray-300 p-1.5 rounded-lg cursor-pointer bg-gray-50 focus:outline-none'
             }),

@@ -156,6 +156,7 @@ def fillContactForm(request):
 class ContactUpdateView(UpdateView):
     model = Contact
     form_class = ContactForm
+    context_object_name = 'contact'
     template_name = 'a_contacts/contact_update.html'
 
 
