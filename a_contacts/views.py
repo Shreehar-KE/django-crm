@@ -150,7 +150,7 @@ def fillContactForm(request):
     }
     form = ContactForm(initial=fake_contact)
 
-    return render(request, 'partials/contact_create_form.html', {'form': form})
+    return render(request, 'partials/contact_form.html', {'form': form})
 
 
 class ContactUpdateView(UpdateView):

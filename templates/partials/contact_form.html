@@ -1,10 +1,21 @@
 {% load static %}
 <div id="contact-create-form" class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-  <div class="sm:col-span-2 flex flex-col sm:flex-row gap-4 sm:justify-between">
+  <div x-data="{
+      fileInput: null,
+      image: null,
+      previewImage(event) {
+        const file = event.target.files[0];
+        if (file && file.type.includes('image')) {
+          const url = URL.createObjectURL(file);
+          this.image.src = url;
+        }
+      }
+    }" x-init="fileInput = $refs.fileInput; image = $refs.profileImage"
+    class="sm:col-span-2 flex flex-col sm:flex-row gap-4 sm:justify-between">
     <div class="flex flex-col items-center ">
       <label for="profile-image" class="block w-fit mb-2 text-sm font-medium text-gray-900">Profile Image</label>
-      <img id="profile-image" class="w-20 h-20 border border-gray-500 object-cover rounded-full bg-primary"
-        src="{% static 'img/image-placeholder.png' %}" alt="Profile Image">
+      <img x-ref="profileImage" id="profile-image" class="w-20 h-20 border border-gray-500 object-cover rounded-full bg-primary" 
+      {% if contact and contact.image %} src="{{ contact.image.url }}" {% else %} src="{% static 'img/image-placeholder.png' %}" {% endif %} alt="Profile Image">
     </div>
     <div class="flex flex-col justify-end">
       <label class="block mb-2 text-sm font-medium text-gray-900 sm:text-right" for="file_input">Upload image</label>

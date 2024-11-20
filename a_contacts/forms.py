@@ -29,6 +29,8 @@ class ContactForm(ModelForm):
             }),
             'image': FileInput(attrs={
                 'id': 'image-input',
-                'class': 'block w-full text-sm text-gray-900 border border-gray-300 p-1.5 rounded-lg cursor-pointer bg-gray-50 focus:outline-none'
+                'class': 'block w-full text-sm text-gray-900 border border-gray-300 p-1.5 rounded-lg cursor-pointer bg-gray-50 focus:outline-none',
+                'x-ref': "fileInput",
+                '@change': "previewImage($event)",
             }),
         }
