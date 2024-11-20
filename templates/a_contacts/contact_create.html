@@ -16,7 +16,8 @@
       </button>
       <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95"
         href="{{ request.META.HTTP_REFERER }}">Cancel</a>
-      <img src="{% static 'img/dice.svg' %}" title="Fill Random Data?" hx-get="{% url 'a_contacts:fake-contact-create' %}" hx-target="#contact-create-form" hx-swap="outerHTML"
+      <img src="{% static 'img/dice.svg' %}" title="Fill Random Data?" hx-get="{% url 'a_contacts:fake-contact-create' %}"
+        hx-target="#contact-form" hx-swap="outerHTML"
         class="inline-block ml-4 h-8 select-none transition-transform duration-300 hover:scale-125 active:scale-95">
       </img>
     </form>
