@@ -7,7 +7,7 @@
 <section class="bg-white ">
   <div class="py-8 px-4 mx-auto max-w-2xl sm:py-16">
     <h2 class="mb-8 text-2xl font-bold text-gray-900 ">Update Contact</h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
         <div class="sm:col-span-2 flex flex-col sm:flex-row gap-4 sm:justify-between">
