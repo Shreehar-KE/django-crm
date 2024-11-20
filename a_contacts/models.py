@@ -1,6 +1,8 @@
 import uuid
 from django.db import models
 from django.urls import reverse
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 
 class Contact(models.Model):
@@ -16,6 +18,10 @@ class Contact(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     image = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    image_thumbnail = ImageSpecField(source='image',
+                                     processors=[ResizeToFill(100, 100)],
+                                     format='JPEG',
+                                     options={'quality': 60})
     email = models.EmailField(unique=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(
