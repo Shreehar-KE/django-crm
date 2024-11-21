@@ -873,13 +873,13 @@ video {
   width: auto;
 }
 
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
 .w-full {
   width: 100%;
+}
+
+.w-max {
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .w-screen {
@@ -1582,6 +1582,15 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   cursor: pointer;
   align-items: center;
   justify-content: flex-start;
+}
+
+ul.errorlist>li {
+  text-align: end;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .hover\:scale-125:hover {

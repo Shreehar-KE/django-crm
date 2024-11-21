@@ -3,6 +3,7 @@ from .models import Contact
 
 
 class ContactForm(ModelForm):
+    error_css_class = "error"
     class Meta:
         model = Contact
         fields = "__all__"

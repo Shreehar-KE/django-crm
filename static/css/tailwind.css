@@ -117,3 +117,7 @@ tr.htmx-swapping td, tr.htmx-swapping th{
 .menulist>*>a , .menulist>a{
   @apply flex items-center justify-start cursor-pointer;
 }
+
+ul.errorlist>li {
+    @apply text-red-500 text-xs font-bold text-end;
+}

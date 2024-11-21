@@ -12,29 +12,33 @@
       }
     }" x-init="fileInput = $refs.fileInput; image = $refs.profileImage"
     class="sm:col-span-2 flex flex-col sm:flex-row gap-4 sm:justify-between">
-    <div class="flex flex-col items-center ">
-      <label for="profile-image" class="block w-fit mb-2 text-sm font-medium text-gray-900">Profile Image</label>
+    <div class="flex flex-col items-center">
+      <label for="profile-image" class="block w-max mb-2 text-sm font-medium text-gray-900">Profile Image</label>
       <img x-ref="profileImage" id="profile-image" class="w-20 h-20 border border-gray-500 object-cover rounded-full bg-primary"
         alt="Profile Image" {% if contact and contact.image %} src="{{ contact.image.url }}" {% else %}
         src="{% static 'img/image-placeholder.png' %}" {% endif %}>
     </div>
-    <div class="flex flex-col justify-end">
+    <div class="flex flex-col justify-end w-full">
       <label class="block mb-2 text-sm font-medium text-gray-900 sm:text-right" for="file_input">Upload image</label>
       {{ form.image }}
+      {{ form.image.errors }}
       <p class="mt-1 text-xs text-gray-500 text-right" id="file_input_help">Supports only PNG, JPG or WEBP files.</p>
     </div>
   </div>
   <div class="w-full">
     <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>
     {{ form.first_name }}
+    {{ form.first_name.errors }}
   </div>
   <div class="w-full">
     <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 ">Last Name</label>
     {{ form.last_name }}
+    {{ form.last_name.errors }}
   </div>
   <div class="sm:col-span-2">
     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
     {{ form.email }}
+    {{ form.email.errors }}
   </div>
   <div class="w-full">
     <label for="location" class="block mb-2 text-sm font-medium text-gray-900 ">Location</label>

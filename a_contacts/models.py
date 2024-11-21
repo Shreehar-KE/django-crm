@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.core.validators import FileExtensionValidator, validate_email
 from django.urls import reverse
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -17,12 +18,13 @@ class Contact(models.Model):
         editable=False)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    image = models.ImageField(upload_to='avatars/', null=True,
+                              blank=True, validators=[FileExtensionValidator(allowed_extensions=['PNG','JPEG','WebP','JPG'])])
     image_thumbnail = ImageSpecField(source='image',
                                      processors=[ResizeToFill(100, 100)],
                                      format='JPEG',
                                      options={'quality': 60})
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, validators=[validate_email])
     location = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(
         max_length=8, choices=Type.choices, default=Type.LEAD)
