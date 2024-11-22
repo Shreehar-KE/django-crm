@@ -44,5 +44,26 @@
     </div>
   </div>
 </body>
+<script>
+  document.body.addEventListener('htmx:beforeSwap', function (event) {
+      const xhr = event.detail.xhr;
+
+      if (xhr.status === 200) {
+        try {
+          const response = JSON.parse(xhr.responseText);
+
+          // Check if response contains a redirect key
+          if (response.redirect) {
+            // Prevent HTMX from swapping content
+            event.preventDefault();
+            // Redirect to the specified URL
+            window.location.href = response.redirect;
+          }
+        } catch (e) {
+          // Response is not JSON; proceed with default behavior
+        }
+      }
+    });
+</script>
 
 </html>

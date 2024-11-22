@@ -1,0 +1,86 @@
+{% extends 'layouts/b.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-white relative sm:rounded-lg overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+        <tr>
+          <th scope="col" class="hidden sm:table-cell px-4 py-3 select-none">S.No.</th>
+          <th scope="col" class="px-4 py-3 select-none">Name</th>
+          <th scope="col" class="hidden sm:table-cell px-4 py-3 select-none">Email</th>
+          <th scope="col" class="hidden lg:table-cell px-4 py-3 select-none">Location</th>
+          <th scope="col" class="px-4 py-3 select-none">Type</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <th scope="row" colspan="5" class="border-b text-center px-4 py-3 font-bold text-xl text-gray-900 whitespace-nowrap truncate ">
+          Valid Contacts ({{valid_data|length}})
+        </th>
+        {% for row in valid_data %}
+        <tr class="border-b hover:bg-gray-100">
+          <td class="hidden w-4 sm:table-cell px-4 py-3">{{ forloop.counter }}</td>
+          <!-- <td class=" max-w-8 px-4 py-3">{{ contact.contact_id }}</td> -->
+          <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap truncate">
+            {{ row.0 }} {{ row.1 }}
+          </th>
+          <td class="hidden max-w-28 sm:table-cell px-4 py-3 truncate">{{row.2}}</td>
+          <td class="hidden max-w-16 lg:table-cell px-4 py-3 truncate">{{row.3}}</td>
+          <td class="w-8 px-4 py-3">
+            <span
+              class="inline-flex items-center rounded {% if row.4 == 'LEAD' %}bg-blue-200 text-blue-800{% elif row.4 == 'PROSPECT' %}bg-yellow-200 text-yellow-800{% elif row.4 == 'CUSTOMER' %}bg-green-200 text-green-800{% else %}bg-red-200 text-red-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
+              {{row.4}}
+            </span>
+          </td>
+        </tr>
+        {% empty %}
+        <tr class="border-b text-center px-4 py-3 text-gray-900 whitespace-nowrap truncate ">
+          <td colspan="5">None</td>
+        </tr>
+        {% endfor%}
+        <th scope="row" colspan="5" class="border-b text-center px-4 py-3 font-bold text-xl text-gray-900 whitespace-nowrap truncate ">
+          Invalid Contacts ({{invalid_data|length}})
+        </th>
+        {% for row in invalid_data %}
+        <tr class="border-b hover:bg-gray-100">
+          <td class="hidden w-4 sm:table-cell px-4 py-3">{{ forloop.counter }}</td>
+          <!-- <td class=" max-w-8 px-4 py-3">{{ contact.contact_id }}</td> -->
+          <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap truncate">
+            {{ row.0 }} {{ row.1 }}
+          </th>
+          <td class="hidden max-w-28 sm:table-cell px-4 py-3 truncate">{{row.2}}</td>
+          <td class="hidden max-w-16 lg:table-cell px-4 py-3 truncate">{{row.3}}</td>
+          <td class="w-8 px-4 py-3">
+            <span
+              class="inline-flex items-center rounded {% if row.4 == 'LEAD' %}bg-blue-200 text-blue-800{% elif row.4 == 'PROSPECT' %}bg-yellow-200 text-yellow-800{% elif row.4 == 'CUSTOMER' %}bg-green-200 text-green-800{% else %}bg-red-200 text-red-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
+              {{row.4}}
+            </span>
+          </td>
+        </tr>
+        {% for error, error_msgs in row.5.items %}
+        <tr class="border-b text-red-500 whitespace-nowrap">
+          <td class="px-4 py-3 truncate" colspan="2">{{error}}</td>
+          <td class="px-4 py-3 truncate" colspan="3">{{error_msgs.0}}</td>
+        </tr>
+        {% endfor %}
+        {% empty %}
+        <tr class="border-b text-center px-4 py-3 text-gray-900 whitespace-nowrap truncate ">
+          <td colspan="5">None</td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+    <form class="mt-10 place-self-center" method="post">
+      {% csrf_token %}
+      <button type="submit"
+        class="select-none w-[80px] text-white bg-primary-400 hover:bg-primary-500 focus:outline-none font-medium rounded-lg text-sm  border  border-primary-400 hover:border-primary-500 px-4 py-2 text-center transition-transform duration-300 active:scale-95">
+        Confirm
+      </button>
+      <a href="{{ request.META.HTTP_REFERER }}"
+        class="cursor-pointer select-none w-[80px] inline-flex items-center justify-center text-center py-2 px-4 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 transition-transform duration-300 active:scale-95">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock content%}

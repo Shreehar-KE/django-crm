@@ -1,14 +1,16 @@
 import random
-import time
+import csv
 import urllib
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import (
     ListView, CreateView, UpdateView, DetailView)
 from django.db.models import Q
+from django.core.exceptions import ValidationError
 from .models import Contact
-from .forms import ContactForm
+from .forms import ContactForm, ContactBulkCreateForm
 from faker import Faker
+
 
 class HomePageView(ListView):
     model = Contact
@@ -58,7 +60,7 @@ class HomePageView(ListView):
 
         if self.selected_filters:
             contacts = Contact.objects.filter(type__in=self.selected_filters)
-            
+
         else:
             contacts = super().get_queryset()
 
@@ -67,7 +69,6 @@ class HomePageView(ListView):
                 contacts = contacts.order_by(self.sort_by)
             else:
                 contacts = contacts.order_by(f'-{self.sort_by}')
-
 
         if self.search_text and search_text_length > 3:
             if self.search_text.startswith('#'):
@@ -106,12 +107,15 @@ class HomePageView(ListView):
         context = super().get_context_data(**kwargs)
         context['is_result'] = self.is_result
         context['is_search_text'] = self.is_search_text
-        
+
         if self.is_result and context.get('page_obj'):
             page_obj = context['page_obj']
             context['page_offset'] = (page_obj.number - 1) * self.paginate_by
             context['more_contacts'] = page_obj.has_next()
-            context['next_page'] = page_obj.next_page_number() if page_obj.has_next() else None
+            if page_obj.has_next():
+                context['next_page'] = page_obj.next_page_number()  
+            else:
+                context['next_page'] = None
         else:
             context['page_offset'] = 0
             context['more_contacts'] = False
@@ -127,6 +131,7 @@ class HomePageView(ListView):
         context['selected_filters'] = self.selected_filters
 
         return context
+
 
 class ContactCreateView(CreateView):
     form_class = ContactForm
@@ -164,6 +169,102 @@ class ContactDetailView(DetailView):
     model = Contact
     context_object_name = "contact"
     template_name = 'a_contacts/contact_detail.html'
+
+
+def contactBulkCreateView(request):
+    if request.method == 'GET' and request.headers.get('Hx-Request'):
+        form = ContactBulkCreateForm()
+        return render(request, 'partials/contact_bulk_create_modal_form.html', {'form': form})
+    elif request.method == 'POST' and request.FILES.get('csv_file'):
+        form = ContactBulkCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = form.cleaned_data['csv_file']
+            decoded_file = csv_file.read().decode('utf-8').splitlines()
+            csv_reader = csv.DictReader(decoded_file)
+            valid_data = []
+            invalid_data = []
+
+            for row in csv_reader:
+                try:
+                    obj = Contact(**row)
+                    obj.full_clean()
+                    valid_data.append(row)
+                except ValidationError as e:
+                    row['errors'] = e.message_dict
+                    invalid_data.append(row)
+
+            request.session['preview_data'] = valid_data
+            request.session['invalid_data'] = invalid_data
+
+            return JsonResponse({'redirect': '/contact/bulkcreate/preview/'})
+        else:
+            return render(request, 'partials/contact_bulk_create_modal_form.html', {'form': form})
+    else:
+        return redirect('a_contacts:home')
+
+
+def contactBulkCreatePreview(request):
+    valid_data = request.session.get('preview_data', [])
+    invalid_data = request.session.get('invalid_data', [])
+
+    if request.method == 'POST':
+        for row in valid_data:
+            Contact.objects.create(
+                first_name=row['first_name'],
+                last_name=row['last_name'],
+                email=row['email'],
+                location=row['location'],
+                type=row['type']
+            )
+
+        request.session.pop('preview_data', None)
+        request.session.pop('invalid_data', None)
+
+        return redirect('a_contacts:home')
+
+    formatted_valid_data = [list(row.values()) for row in valid_data]
+    formatted_invalid_data = [list(row.values()) for row in invalid_data]
+
+    return render(request, 'a_contacts/bulk_create_preview.html', {
+        'valid_data': formatted_valid_data,
+        'invalid_data': formatted_invalid_data,
+    })
+
+
+def exportRandomDataCSV(request):
+    try:
+        if 'contact/create' in request.META['HTTP_REFERER']:
+            faker = Faker()
+            headers = ['first_name', 'last_name', 'email', 'location', 'type']
+            data = []
+            for _ in range(10):
+                fake_name = faker.name()
+                first_name = fake_name.split()[0]
+                last_name = fake_name.split()[1]
+                types = [Contact.Type.LEAD,
+                         Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
+
+                data.append({
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": f'{first_name.lower()}.{last_name.lower()}@email.com',
+                    "location": faker.country(),
+                    "type": random.choice(types)
+                })
+
+            response = HttpResponse(
+                content_type="text/csv",
+                headers={
+                    "Content-Disposition": 'attachment; filename="random_data.csv"'},
+            )
+
+            writer = csv.DictWriter(response, fieldnames=headers)
+            writer.writeheader()
+            writer.writerows(data)
+
+            return response
+    except:
+        return redirect('a_contacts:home')
 
 
 def contactDeleteView(request, pk):

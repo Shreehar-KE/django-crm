@@ -1,9 +1,12 @@
-from django.forms import ModelForm, TextInput, Select, FileInput
+from django import forms
+from django.core.validators import FileExtensionValidator
+from django.forms import ModelForm, TextInput, Select, FileInput, ValidationError
 from .models import Contact
-
+from .utils.validators import validate_csv_file_extension
 
 class ContactForm(ModelForm):
     error_css_class = "error"
+
     class Meta:
         model = Contact
         fields = "__all__"
@@ -35,3 +38,12 @@ class ContactForm(ModelForm):
                 '@change': "previewImage($event)",
             }),
         }
+
+
+class ContactBulkCreateForm(forms.Form):
+    csv_file = forms.FileField(
+        validators=[validate_csv_file_extension],
+        required=True,
+        widget=forms.FileInput(attrs={
+                               'class': 'block w-full text-sm text-gray-900 border border-gray-300 p-1.5 rounded-lg cursor-pointer bg-gray-50 focus:outline-none'})
+    )
