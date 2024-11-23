@@ -12,8 +12,7 @@
       <a @click="mobileNavOpen = !mobileNavOpen"
         class="size-12 flex items-center justify-center cursor-pointer select-none hover:bg-gray-700 rounded-lg">
         <img x-show="!mobileNavOpen" class="size-6" src="{% static 'img/menu.svg' %}" alt="hamburger-menu">
-        <img x-show="mobileNavOpen" x-cloak class="size-6" src="{% static 'img/close.svg' %}"
-          alt="close-button">
+        <img x-show="mobileNavOpen" x-cloak class="size-6" src="{% static 'img/close.svg' %}" alt="close-button">
       </a>
     </mobileicon>
   </div>
@@ -22,10 +21,11 @@
     x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-96"
     x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="duration-300 ease-out"
     x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-96">
-    <ul class="flex items-center navitems flex-col md:flex-row gap-8 md:gap-0 justify-center h-full -translate-y-10 md:translate-y-0">
-      <li><a>Recent Events</a></li>
+    <ul class="flex items-center flex-col md:flex-row gap-8 md:gap-2 justify-center h-full -translate-y-10 md:translate-y-0">
+      <li><a href="{% url 'a_contacts:export-csv-data' %}" class="w-auto justify-center inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700
+          select-none transition-transform duration-300 active:scale-95">Export CSV</a></li>
       <li x-data="{ dropdownOpen: false}" class="relative">
-        <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none">
+        <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
           <img class="h-6 outline-double outline-gray-700 rounded-full object-cover bg-primary-500" src="{% static 'img/user.svg'%}"
             alt="user-avatar">
           User

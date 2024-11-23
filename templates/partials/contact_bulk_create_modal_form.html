@@ -62,7 +62,7 @@
     </button>
     <a @click="showModal = false"
       class="cursor-pointer select-none w-[80px] inline-flex items-center justify-center text-center py-2 px-4 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 transition-transform duration-300 active:scale-95">Cancel</a>
-    <a href="{% url 'a_contacts:fake-csv-data' %}"><img src="{% static 'img/dice.svg' %}" title="Want Random Data?"
+    <a href="{% url 'a_contacts:export-fake-csv-data' %}"><img src="{% static 'img/dice.svg' %}" title="Want Random Data?"
         class="inline-block ml-4 h-8 select-none transition-transform duration-300 hover:scale-125 active:scale-95">
       </img>
     </a>

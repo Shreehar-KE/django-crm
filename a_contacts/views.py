@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from .models import Contact
 from .forms import ContactForm, ContactBulkCreateForm
 from faker import Faker
+from .templatetags.templatetags import format_contact_id
 
 
 class HomePageView(ListView):
@@ -283,3 +284,35 @@ def contactDeleteView(request, pk):
         context['homepage'] = True
 
     return render(request, 'partials/contact_delete_confirm.html', context)
+
+
+def exportDataCSV(request):
+    
+    headers = ['id','first_name', 'last_name', 'email', 'location', 'type']
+    data = []
+
+    contacts = Contact.objects.all()
+    if contacts:
+        for contact in contacts:
+            data.append({
+                "id": format_contact_id(contact.contact_id),
+                "first_name": contact.first_name,
+                "last_name": contact.last_name,
+                "email": contact.email,
+                "location": contact.location,
+                "type": contact.type,
+            })
+
+        response = HttpResponse(
+            content_type="text/csv",
+            headers={
+                "Content-Disposition": 'attachment; filename="crm_data.csv"'},
+        )
+
+        writer = csv.DictWriter(response, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(data)
+
+        return response
+    else:
+        return HttpResponse(status=204)

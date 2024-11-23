@@ -94,8 +94,8 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   transform: scale(0.95);
 }
 
-.navitems>li>a {
-  @apply h-12 px-4 hover:bg-gray-700 rounded-lg flex items-center gap-2 cursor-pointer;
+.navitem {
+  @apply h-10 px-4 hover:bg-gray-700 rounded-lg flex items-center gap-2 cursor-pointer;
 }
 
 .card {

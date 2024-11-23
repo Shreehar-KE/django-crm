@@ -1574,9 +1574,9 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   transform: scale(0.95);
 }
 
-.navitems>li>a {
+.navitem {
   display: flex;
-  height: 3rem;
+  height: 2.5rem;
   cursor: pointer;
   align-items: center;
   gap: 0.5rem;
@@ -1585,7 +1585,7 @@ tr.htmx-swapping td, tr.htmx-swapping th{
   padding-right: 1rem;
 }
 
-.navitems>li>a:hover {
+.navitem:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
@@ -1836,8 +1836,8 @@ ul.errorlist>li {
     align-items: center;
   }
 
-  .md\:gap-0 {
-    gap: 0px;
+  .md\:gap-2 {
+    gap: 0.5rem;
   }
 
   .md\:space-x-3 > :not([hidden]) ~ :not([hidden]) {
