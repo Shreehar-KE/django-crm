@@ -113,7 +113,7 @@ class HomePageView(ListView):
             context['page_offset'] = (page_obj.number - 1) * self.paginate_by
             context['more_contacts'] = page_obj.has_next()
             if page_obj.has_next():
-                context['next_page'] = page_obj.next_page_number()  
+                context['next_page'] = page_obj.next_page_number()
             else:
                 context['next_page'] = None
         else:
@@ -232,38 +232,37 @@ def contactBulkCreatePreview(request):
 
 
 def exportRandomDataCSV(request):
-    try:
-        if 'contact/create' in request.META['HTTP_REFERER']:
-            faker = Faker()
-            headers = ['first_name', 'last_name', 'email', 'location', 'type']
-            data = []
-            for _ in range(10):
-                fake_name = faker.name()
-                first_name = fake_name.split()[0]
-                last_name = fake_name.split()[1]
-                types = [Contact.Type.LEAD,
-                         Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
+    if 'HTTP_REFERER' in request.META and 'contact/create' in request.META['HTTP_REFERER']:
+        faker = Faker()
+        headers = ['first_name', 'last_name', 'email', 'location', 'type']
+        data = []
+        for _ in range(10):
+            fake_name = faker.name()
+            first_name = fake_name.split()[0]
+            last_name = fake_name.split()[1]
+            types = [Contact.Type.LEAD,
+                        Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
 
-                data.append({
-                    "first_name": first_name,
-                    "last_name": last_name,
-                    "email": f'{first_name.lower()}.{last_name.lower()}@email.com',
-                    "location": faker.country(),
-                    "type": random.choice(types)
-                })
+            data.append({
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": f'{first_name.lower()}.{last_name.lower()}@email.com',
+                "location": faker.country(),
+                "type": random.choice(types)
+            })
 
-            response = HttpResponse(
-                content_type="text/csv",
-                headers={
-                    "Content-Disposition": 'attachment; filename="random_data.csv"'},
-            )
+        response = HttpResponse(
+            content_type="text/csv",
+            headers={
+                "Content-Disposition": 'attachment; filename="random_data.csv"'},
+        )
 
-            writer = csv.DictWriter(response, fieldnames=headers)
-            writer.writeheader()
-            writer.writerows(data)
+        writer = csv.DictWriter(response, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(data)
 
-            return response
-    except:
+        return response
+    else:
         return redirect('a_contacts:home')
 
 
