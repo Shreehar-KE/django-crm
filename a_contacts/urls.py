@@ -20,5 +20,7 @@ urlpatterns = [
          name='fake-contact-create'),
     path('contact/bulkcreate/fake/', views.exportRandomDataCSV,
          name='export-fake-csv-data'),
-    path('contact/export/', views.exportDataCSV, name='export-csv-data'),
+    path('contact/export/csv', views.exportDataCSV, name='export-data-csv'),
+    path('contact/export/pdf', views.exportDataPDF, name='export-data-pdf'),
+
 ]

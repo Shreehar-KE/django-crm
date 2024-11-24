@@ -44,26 +44,43 @@
     </div>
   </div>
 </body>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.js"></script>
 <script>
   document.body.addEventListener('htmx:beforeSwap', function (event) {
-      const xhr = event.detail.xhr;
+    const xhr = event.detail.xhr;
 
-      if (xhr.status === 200) {
-        try {
-          const response = JSON.parse(xhr.responseText);
+    if (xhr.status === 200) {
+      try {
+        const response = JSON.parse(xhr.responseText);
 
-          // Check if response contains a redirect key
-          if (response.redirect) {
-            // Prevent HTMX from swapping content
-            event.preventDefault();
-            // Redirect to the specified URL
-            window.location.href = response.redirect;
-          }
-        } catch (e) {
-          // Response is not JSON; proceed with default behavior
+        if (response.redirect) {
+          event.preventDefault();
+          window.location.href = response.redirect;
         }
+      } catch (e) {
       }
+    }
+  });
+
+  document.querySelector('#generate-pdf').addEventListener('click', async () => {
+    const { jsPDF } = window.jspdf;
+    const response = await fetch('{% url "a_contacts:export-data-pdf" %}');
+    const data = await response.json();
+
+    const pdf = new jsPDF();
+    pdf.text("Contact List", 10, 10);
+
+    const headers = [["ID", "Name", "Email", "Location", "Type"]];
+    const rows = data.map(contact => [contact.id, contact.name, contact.email, contact.location, contact.type]);
+
+    pdf.autoTable({
+      head: headers,
+      body: rows,
     });
+
+    pdf.save("crm_data.pdf");
+  });
 </script>
 
 </html>

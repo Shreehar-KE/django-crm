@@ -316,3 +316,18 @@ def exportDataCSV(request):
         return response
     else:
         return HttpResponse(status=204)
+    
+def exportDataPDF(request):
+    data = []
+
+    contacts = Contact.objects.all()
+    if contacts:
+        for contact in contacts:
+            data.append({
+                "id": format_contact_id(contact.contact_id),
+                "name": contact.first_name + contact.last_name,
+                "email": contact.email,
+                "location": contact.location,
+                "type": contact.type,
+            })
+    return JsonResponse(data, safe=False)
