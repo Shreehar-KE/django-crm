@@ -115,7 +115,7 @@ tr.htmx-swapping td, tr.htmx-swapping th{
 }
 
 .menulist>*>a , .menulist>a{
-  @apply flex items-center justify-start cursor-pointer;
+  @apply flex items-center justify-start cursor-pointer ;
 }
 
 ul.errorlist>li {

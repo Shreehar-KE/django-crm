@@ -1915,3 +1915,23 @@ ul.errorlist>li {
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
+.\[\&\>li\:active\]\:bg-primary-200>li:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(165 234 229 / var(--tw-bg-opacity));
+}
+
+.\[\&\>li\:active\]\:active\:bg-primary-200:active>li:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(165 234 229 / var(--tw-bg-opacity));
+}
+
+.\[\&\>li\>a\:active\]\:bg-primary-200>li>a:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(165 234 229 / var(--tw-bg-opacity));
+}
+
+.\[\&\>li\>a\:active\]\:active\:bg-primary-200:active>li>a:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(165 234 229 / var(--tw-bg-opacity));
+}

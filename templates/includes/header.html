@@ -21,9 +21,23 @@
     x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-96"
     x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="duration-300 ease-out"
     x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-96">
-    <ul class="flex items-center flex-col md:flex-row gap-8 md:gap-2 justify-center h-full -translate-y-10 md:translate-y-0">
-      <li><a href="{% url 'a_contacts:export-csv-data' %}" class="w-auto justify-center inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700
-          select-none transition-transform duration-300 active:scale-95">Export CSV</a></li>
+    <ul class="flex items-center flex-col md:flex-row gap-8 md:gap-2 justify-center h-full -translate-y-10 md:translate-y-0">      
+      <li x-data="{ dropdownOpen: false}" class="relative">
+        <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
+          Export
+          <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}"
+            alt="">
+        </a>
+        <div x-show="dropdownOpen" x-cloak class="absolute top-14 right-0 bg-gray-50 text-gray-700 shadow rounded-lg w-40 p-2 z-20"
+          x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+          x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
+          x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
+          <ul class="menulist [&>li:active]:bg-primary-200">
+            <li><a href="{% url 'a_contacts:export-data-csv' %}">Export CSV</a></li>
+            <li><a id="generate-pdf" hx-get="{% url 'a_contacts:export-data-pdf' %}" hx-trigger="click" hx-swap="none">Export PDF</a></li>
+          </ul>
+        </div>
+      </li>
       <li x-data="{ dropdownOpen: false}" class="relative">
         <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
           <img class="h-6 outline-double outline-gray-700 rounded-full object-cover bg-primary-500" src="{% static 'img/user.svg'%}"
