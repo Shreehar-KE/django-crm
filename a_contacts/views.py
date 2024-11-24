@@ -242,7 +242,7 @@ def exportRandomDataCSV(request):
             first_name = fake_name.split()[0]
             last_name = fake_name.split()[1]
             types = [Contact.Type.LEAD,
-                        Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
+                     Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
 
             data.append({
                 "first_name": first_name,
@@ -287,8 +287,6 @@ def contactDeleteView(request, pk):
 
 
 def exportDataCSV(request):
-    
-    headers = ['id','first_name', 'last_name', 'email', 'location', 'type']
     data = []
 
     contacts = Contact.objects.all()
@@ -302,21 +300,11 @@ def exportDataCSV(request):
                 "location": contact.location,
                 "type": contact.type,
             })
-
-        response = HttpResponse(
-            content_type="text/csv",
-            headers={
-                "Content-Disposition": 'attachment; filename="crm_data.csv"'},
-        )
-
-        writer = csv.DictWriter(response, fieldnames=headers)
-        writer.writeheader()
-        writer.writerows(data)
-
-        return response
+        return JsonResponse(data, safe=False)
     else:
         return HttpResponse(status=204)
-    
+
+
 def exportDataPDF(request):
     data = []
 
@@ -325,9 +313,11 @@ def exportDataPDF(request):
         for contact in contacts:
             data.append({
                 "id": format_contact_id(contact.contact_id),
-                "name": contact.first_name + contact.last_name,
+                "name": contact.first_name +" "+ contact.last_name,
                 "email": contact.email,
                 "location": contact.location,
                 "type": contact.type,
             })
-    return JsonResponse(data, safe=False)
+        return JsonResponse(data, safe=False)
+    else:
+        return HttpResponse(status=204)
