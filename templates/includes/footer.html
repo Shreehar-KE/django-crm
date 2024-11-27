@@ -1,0 +1,30 @@
+{% load static %}
+<footer class="bg-gray-800 text-white py-6 px-4">
+  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+    
+    <div class="flex items-center gap-2">
+      <img class="h-6 cursor-pointer transition-transform duration-300 active:scale-90" src="{% static 'img/heart.svg' %}" alt="like-heart">
+      <span class="font-sans font-extrabold">Likes</span>
+    </div>
+
+    
+    <!-- <nav class="flex space-x-4">
+      <a href="#" class="hover:text-gray-300 text-sm">Home</a>
+      <a href="#" class="hover:text-gray-300 text-sm">About Us</a>
+      <a href="#" class="hover:text-gray-300 text-sm">Contact</a>
+      <a href="#" class="hover:text-gray-300 text-sm">Privacy Policy</a>
+    </nav> -->
+
+    
+    <div class="flex space-x-4 items-center">
+      <a href="https://github.com/Shreehar-KE/django-crm" target="_blank" class="hover:text-gray-300">
+        <img class="h-6" src="{% static 'img/github-dark.svg' %}" alt="GitHub" title="view source">
+      </a>
+      <a href="https://www.linkedin.com/posts/shreehar-ke_buildinpublic-devlog-django-activity-7260159084438425600-c3aT" target="_blank" class="hover:text-gray-300">
+        <img class="h-6" src="{% static 'img/linkedin.svg' %}" alt="LinkedIn" title="follow devlog">
+      </a>
+      <a href="https://shreehar-ke.github.io/" target="_blank" title="visit portfolio" class="text-xl/none font-bold text-white [&>span]:text-primary-500"><span>Shree</span>har</a>
+      </a>
+    </div>
+  </div>
+</footer>

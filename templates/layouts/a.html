@@ -2,11 +2,13 @@
 
 {% block layout %}
 
-  {% include 'includes/hero.html' %}
+{% include 'includes/hero.html' %}
 
-  <main class=" card mx-auto w-[90%] mt-6">
-    {% block content %}
-    {% endblock content%}
-  </main>
+<main class=" card mx-auto w-[90%] mt-6">
+  {% block content %}
+  {% endblock content%}
+</main>
+
+{% include 'includes/footer.html' %}
 
 {% endblock layout%}
