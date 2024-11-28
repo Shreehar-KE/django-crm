@@ -3,8 +3,7 @@
   <div class="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
     
     <div class="flex items-center gap-2">
-      <img class="h-6 cursor-pointer transition-transform duration-300 active:scale-90" src="{% static 'img/heart.svg' %}" alt="like-heart">
-      <span class="font-sans font-extrabold">Likes</span>
+      {% include 'analytics/likes.html' %}
     </div>
 
     

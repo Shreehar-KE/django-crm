@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
     'a_contacts',
+    'analytics'
 ]
 
 MIDDLEWARE = [

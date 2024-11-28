@@ -164,7 +164,7 @@ cython_debug/
 node_modules/
 staticfiles/
 todo.md
-a_contacts/migrations/
+*/migrations/
 test.html
 test_partial.html
 avatars/

@@ -11,6 +11,7 @@ from .models import Contact
 from .forms import ContactForm, ContactBulkCreateForm
 from faker import Faker
 from .templatetags.templatetags import format_contact_id
+from analytics.models import Like
 
 
 class HomePageView(ListView):
@@ -130,6 +131,7 @@ class HomePageView(ListView):
             type='CUSTOMER').count()
         context['search_text'] = self.search_text
         context['selected_filters'] = self.selected_filters
+        context['likes'] = Like.objects.count()
 
         return context
 
