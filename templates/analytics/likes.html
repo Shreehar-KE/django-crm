@@ -1,4 +1,4 @@
 {% load static %}
 <img class="h-6 cursor-pointer transition-transform duration-300 active:scale-90" src="{% static 'img/heart.svg' %}" alt="like-heart"
-  hx-get="{% url 'analytics:like' %}" hx-trigger="click" hx-target="#likes-count" hx-swap="innerHTML">
+  hx-get="{% url 'analytics:like' %}" hx-trigger="click" hx-target="#likes-count" hx-swap="innerHTML" title="Did you like the project?" >
 <span class="font-sans font-extrabold">Likes: <span id="likes-count">{{ likes }}</span></span>
