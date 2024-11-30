@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import like_view
+from . import views
 
 app_name = 'analytics'
 urlpatterns = [
-    path('like/', like_view, name='like'),
+    path('like/', views.like_view, name='like'),
+    path('liveusers/', views.live_users_view, name='live-users'),
+
 ]

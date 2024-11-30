@@ -132,6 +132,7 @@ class HomePageView(ListView):
         context['search_text'] = self.search_text
         context['selected_filters'] = self.selected_filters
         context['likes'] = Like.objects.count()
+        context['users'] = 0
 
         return context
 

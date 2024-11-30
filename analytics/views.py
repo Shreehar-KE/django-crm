@@ -19,3 +19,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def live_users_view(request):
+    # logic for counting live_logged_in_users
+    return HttpResponse(5)
