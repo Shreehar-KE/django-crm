@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'analytics.middleware.ActiveUserMiddleware',
 ]
 
 ROOT_URLCONF = 'a_core.urls'
@@ -160,3 +161,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+SESSION_COOKIE_AGE = 300
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

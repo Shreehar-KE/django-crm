@@ -1,4 +1,4 @@
 {% load static %}
 <img class="h-6 cursor-pointer transition-transform duration-300 active:scale-90" src="{% static 'img/user.svg' %}" alt="user-icon"
-  hx-get="{% url 'analytics:live-users' %}" hx-trigger="click" hx-target="#live-users-count" hx-swap="innerHTML" title="refresh?">
-<span class="font-sans font-extrabold"><span id="live-users-count">{{ users }}</span> Users Online </span>
+  hx-get="{% url 'analytics:live-users' %}" hx-trigger="load, click" hx-target="#live-users-count" hx-swap="innerHTML" title="refresh?">
+<span class="font-sans font-extrabold"><span id="live-users-count"></span> Users Online </span>

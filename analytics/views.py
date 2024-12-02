@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from .models import Like
+from .middleware import ActiveUserMiddleware
 
 
 def like_view(request):
@@ -21,5 +22,5 @@ def get_client_ip(request):
     return ip
 
 def live_users_view(request):
-    # logic for counting live_logged_in_users
-    return HttpResponse(5)
+    active_users = ActiveUserMiddleware.get_active_user_count()
+    return HttpResponse(active_users)
