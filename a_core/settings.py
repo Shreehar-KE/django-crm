@@ -55,9 +55,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
+    'accounts',
     'a_contacts',
-    'analytics'
+    'analytics',
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
