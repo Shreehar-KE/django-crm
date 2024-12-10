@@ -1,0 +1,24 @@
+{% extends 'layouts/b.html' %}
+{% load static %}
+{% load tailwind_filters %}
+
+{% block title %}Log Out -{% endblock title %}
+
+{% block content %}
+<section class="bg-white ">
+  <div class="py-8 sm:py-16 px-4 mx-auto max-w-2xl">
+    <h2 class="text-2xl font-bold text-gray-900 mb-8">Log Out</h2>
+    <p>Are you sure you want to log out?</p>
+    <form action="{% url 'account_logout' %}" method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit"
+        class="w-[80px] px-2 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
+        Log Out
+      </button>
+      <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95"
+        href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+    </form>
+  </div>
+</section>
+{% endblock content%}
