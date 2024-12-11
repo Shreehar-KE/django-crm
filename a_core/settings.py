@@ -198,4 +198,10 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_FORMS = {'signup':'accounts.forms.CustomSignupForm'}
+ACCOUNT_FORMS = {
+    "signup": "accounts.forms.CustomSignupForm",
+    "reset_password_from_key": "accounts.forms.CustomResetPasswordKeyForm",
+    "change_password": "accounts.forms.CustomChangePasswordForm",
+}
+
+DEFAULT_FROM_EMAIL = "admin@dj-crm-v3.el.r.appspot.com"

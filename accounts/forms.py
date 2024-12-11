@@ -1,7 +1,24 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from allauth.account.forms import SignupForm
+from allauth.account.forms import ResetPasswordKeyForm, ChangePasswordForm
 from .models import CustomUser
+
+
+class CustomChangePasswordForm(ChangePasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password1"].help_text = None
+        self.fields["oldpassword"].widget.attrs["placeholder"] = ""
+        self.fields["password1"].widget.attrs["placeholder"] = ""
+        self.fields["password2"].widget.attrs["placeholder"] = ""
+
+class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password1"].help_text = None
+        self.fields["password1"].widget.attrs["placeholder"] = ""
+        self.fields["password2"].widget.attrs["placeholder"] = ""
 
 
 class CustomSignupForm(SignupForm):
