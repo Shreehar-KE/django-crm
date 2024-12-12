@@ -7,6 +7,7 @@ from django.views.generic import (
     ListView, CreateView, UpdateView, DetailView)
 from django.db.models import Q
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 from .models import Contact
 from .forms import ContactForm, ContactBulkCreateForm
 from faker import Faker
@@ -302,9 +303,11 @@ def exportDataCSV(request):
                 "location": contact.location,
                 "type": contact.type,
             })
-        return JsonResponse(data, safe=False)
+        messages.success(request, "CSV data exported successfully.")
     else:
-        return HttpResponse(status=204)
+        messages.error(request, "CSV data failed to export.")
+    response = JsonResponse(data, safe=False, status=204)
+    return response
 
 
 def exportDataPDF(request):
@@ -320,6 +323,8 @@ def exportDataPDF(request):
                 "location": contact.location,
                 "type": contact.type,
             })
-        return JsonResponse(data, safe=False)
+        messages.success(request, "PDF data exported successfully.")
     else:
-        return HttpResponse(status=204)
+        messages.error(request, "PDF data failed to export.")
+    response = JsonResponse(data, safe=False, status=204)
+    return response
