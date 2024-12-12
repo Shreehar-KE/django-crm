@@ -12,7 +12,7 @@
   <title>{% block title %}{% endblock title %} Django CRM</title>
 </head>
 
-<body x-data="{showModal: false}" class="bg-slate-100">
+<body x-data="{showModal: false}" class="bg-slate-100 relative">
 
   {% include 'includes/header.html' %}
 
@@ -43,7 +43,13 @@
       </div>
     </div>
   </div>
-
+  <div id="toast" x-data="{dismissed: false}" x-show="!dismissed" x-init="setTimeout(()=> dismissed=true, 5000s)"
+    x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+    x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
+    x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
+    {% include 'includes/toast.html' %}
+  </div>
+  {% include 'includes/footer.html' %}
 </body>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.js"></script>
@@ -109,3 +115,4 @@
 </script>
 
 </html>
+
