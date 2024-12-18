@@ -13,7 +13,7 @@ from .forms import ContactForm, ContactBulkCreateForm
 from faker import Faker
 from .templatetags.templatetags import format_contact_id
 from analytics.models import Like
-
+from .mixins import MessageMixin
 
 class HomePageView(ListView):
     model = Contact
@@ -137,9 +137,11 @@ class HomePageView(ListView):
         return context
 
 
-class ContactCreateView(CreateView):
+class ContactCreateView(MessageMixin, CreateView):
     form_class = ContactForm
     template_name = 'a_contacts/contact_create.html'
+    success_message = 'Contact created successfully'
+    error_message = 'Failed to create contact'
 
 
 def fillContactForm(request):
@@ -162,12 +164,13 @@ def fillContactForm(request):
     return render(request, 'partials/contact_form.html', {'form': form})
 
 
-class ContactUpdateView(UpdateView):
+class ContactUpdateView(MessageMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     context_object_name = 'contact'
     template_name = 'a_contacts/contact_update.html'
-
+    success_message = 'Contact updated successfully'
+    error_message = 'Failed to update contact'
 
 class ContactDetailView(DetailView):
     model = Contact
