@@ -1,4 +1,4 @@
-<div hx-swap-oob="innerHTML" id="toast" x-data="{dismissed: false}" x-show="!dismissed" x-init="setTimeout(() => dismissed=true, 5000)"
+<div hx-swap-oob="true" id="toast" x-data="{dismissed: false}" x-show="!dismissed" x-init="setTimeout(() => dismissed=true, 5000)"
   x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
   x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
   x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">

@@ -94,6 +94,7 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'analytics.middleware.ActiveUserMiddleware',
+    'a_contacts.middleware.HtmxMessagesMiddleware',
 ]
 
 ROOT_URLCONF = 'a_core.urls'

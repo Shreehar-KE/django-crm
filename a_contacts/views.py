@@ -277,15 +277,18 @@ def contactDeleteView(request, pk):
     if (request.method == 'POST'):
         contact.delete()
         if "contact" not in origin_url:
-            return HttpResponse('', status=200)
+            messages.success(request, "Contact deleted successfully.")
+            response = HttpResponse("", status=200)
+            response.htmx_toast = True
+            return response
         else:
+            messages.success(request, "Contact deleted successfully.")
             return redirect('a_contacts:home')
 
     context = {'contact': contact}
 
     if "contact" not in origin_url:
         context['homepage'] = True
-
     return render(request, 'partials/contact_delete_confirm.html', context)
 
 
@@ -303,10 +306,12 @@ def exportDataCSV(request):
                 "location": contact.location,
                 "type": contact.type,
             })
-        messages.success(request, "CSV data exported successfully.")
+        status = 200
+        # messages.success(request, "CSV data exported successfully.")
     else:
-        messages.error(request, "CSV data failed to export.")
-    response = JsonResponse(data, safe=False, status=204)
+        status = 204
+        # messages.error(request, "CSV data failed to export.")
+    response = JsonResponse(data, safe=False, status=status)
     return response
 
 
@@ -323,8 +328,10 @@ def exportDataPDF(request):
                 "location": contact.location,
                 "type": contact.type,
             })
-        messages.success(request, "PDF data exported successfully.")
+        status = 200
+    # messages.success(request, "PDF data exported successfully.")
     else:
-        messages.error(request, "PDF data failed to export.")
-    response = JsonResponse(data, safe=False, status=204)
+        status = 200
+    # messages.error(request, "PDF data failed to export.")
+    response = JsonResponse(data, safe=False, status=status)
     return response
