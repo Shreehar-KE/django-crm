@@ -43,12 +43,9 @@
       </div>
     </div>
   </div>
-  <div id="toast" x-data="{dismissed: false}" x-show="!dismissed" x-init="setTimeout(() => dismissed=true, 5000)"
-    x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
-    x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
-    x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
-    {% include 'includes/toast.html' %}
-  </div>
+
+  {% include 'includes/toast.html' %}
+
   {% include 'includes/footer.html' %}
 </body>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -70,53 +67,83 @@
     }
   });
 
-  document.querySelector('#export-csv').addEventListener('click', async () => {
-    const response = await fetch('{% url "a_contacts:export-data-csv" %}');
-    const data = await response.json();
+  const exportCsvButton = document.querySelector('#export-csv');
+  if (exportCsvButton) {
+    exportCsvButton.addEventListener('click', async () => {
+      try {
+        const response = await fetch('{% url "a_contacts:export-data-csv" %}');
 
-    if (Object.keys(data).length) {
-      const headers = ["ID", "First Name", "Last Name", "Email", "Location", "Type"];
-      const rows = data.map(contact => [contact.id, contact.first_name, contact.last_name, contact.email, contact.location, contact.type]);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
 
-      const csvContent = [
-        headers.join(","),
-        ...rows.map(row => row.join(","))
-      ].join("\n");
+        const data = await response.json();
 
+        if (Object.keys(data).length) {
+          const headers = ["ID", "First Name", "Last Name", "Email", "Location", "Type"];
+          const rows = data.map(contact => [contact.id, contact.first_name, contact.last_name, contact.email, contact.location, contact.type]);
 
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'crm_data.csv';
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+          const csvContent = [
+            headers.join(","),
+            ...rows.map(row => row.join(","))
+          ].join("\n");
+
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'crm_data.csv';
+          link.style.display = 'none';
+          
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          console.error("No data received");
+        }
+      } catch (error) {
+        console.error("Error exporting CSV:", error);
+      }
     }
-  });
+    );
+  }
 
-  document.querySelector('#export-pdf').addEventListener('click', async () => {
-    const { jsPDF } = window.jspdf;
-    const response = await fetch('{% url "a_contacts:export-data-pdf" %}');
-    const data = await response.json();
-    if (Object.keys(data).length) {
-      const pdf = new jsPDF();
-      pdf.text("Django CRM Contacts", 10, 10);
+  const exportPdfButton = document.querySelector('#export-pdf');
+  if (exportPdfButton) {
+    exportPdfButton.addEventListener('click', async () => {
+      try {
+        const { jsPDF } = window.jspdf;
+        const response = await fetch('{% url "a_contacts:export-data-pdf" %}');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
 
-      const headers = [["ID", "Name", "Email", "Location", "Type"]];
-      const rows = data.map(contact => [contact.id, contact.name, contact.email, contact.location, contact.type]);
+        const data = await response.json();
+        
+        if (Object.keys(data).length) {
+          const pdf = new jsPDF();
+          pdf.text("Django CRM Contacts", 10, 10);
 
-      pdf.autoTable({
-        head: headers,
-        body: rows,
-      });
+          const headers = [["ID", "Name", "Email", "Location", "Type"]];
+          const rows = data.map(contact => [contact.id, contact.name, contact.email, contact.location, contact.type]);
 
-      pdf.save("crm_data.pdf");
+          pdf.autoTable({
+            head: headers,
+            body: rows,
+          });
+
+          pdf.save("crm_data.pdf");
+        } else {
+          console.error("No data received");
+        }
+      } catch (error) {
+        console.error("Error exporting PDF:", error);
+      }
     }
-    
-  });
+    );
+  }
 </script>
 
 </html>
-
