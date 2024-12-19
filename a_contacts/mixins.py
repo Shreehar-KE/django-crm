@@ -2,7 +2,7 @@ from django.contrib import messages
 
 
 class MessageMixin:
-    
+
     def form_valid(self, form):
         response = super().form_valid(form)
 

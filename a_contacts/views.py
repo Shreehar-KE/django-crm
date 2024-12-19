@@ -17,14 +17,14 @@ from .mixins import MessageMixin
 from .models import Contact
 from .templatetags.templatetags import format_contact_id
 
+
 def homePageView(request):
     if request.user.is_authenticated:
         return redirect("a_contacts:dashboard")
     else:
-        context = {
-            "likes": Like.objects.count()
-        }
+        context = {"likes": Like.objects.count()}
         return render(request, "home.html", context)
+
 
 class DashboardView(ListView):
     model = Contact

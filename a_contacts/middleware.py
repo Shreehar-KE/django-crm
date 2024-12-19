@@ -9,7 +9,11 @@ class HtmxMessagesMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        if "Hx-Request" in request.headers and get_messages(request) and getattr(response, "htmx_toast", True):
+        if (
+            "Hx-Request" in request.headers
+            and get_messages(request)
+            and getattr(response, "htmx_toast", True)
+        ):
             messages = get_messages(request)
             response.content += render_to_string(
                 template_name="includes/toast.html",
@@ -18,6 +22,5 @@ class HtmxMessagesMiddleware:
             ).encode("utf-8")
             response["Content-Type"] = "text/html"
             print(messages)
-
 
         return response

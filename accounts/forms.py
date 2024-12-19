@@ -13,6 +13,7 @@ class CustomChangePasswordForm(ChangePasswordForm):
         self.fields["password1"].widget.attrs["placeholder"] = ""
         self.fields["password2"].widget.attrs["placeholder"] = ""
 
+
 class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,6 +52,7 @@ class CustomUserCreationForm(UserCreationForm):
             "username",
             "email",
         )
+
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

@@ -19,8 +19,7 @@ class ActiveUserMiddleware:
 
     def update_session_activity(self, request, session_key):
         try:
-            session = Session.objects.get(
-                session_key=session_key)
+            session = Session.objects.get(session_key=session_key)
             session.expire_date = now() + timedelta(request.session.get_expiry_age())
             session.save()
         except Session.DoesNotExist:

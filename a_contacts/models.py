@@ -9,41 +9,46 @@ from imagekit.processors import ResizeToFill
 class Contact(models.Model):
 
     class Type(models.TextChoices):
-        LEAD = 'LEAD', 'Lead'
-        PROSPECT = 'PROSPECT', 'Prospect'
-        CUSTOMER = 'CUSTOMER', 'Customer'
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False)
+        LEAD = "LEAD", "Lead"
+        PROSPECT = "PROSPECT", "Prospect"
+        CUSTOMER = "CUSTOMER", "Customer"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='avatars/', null=True,
-                              blank=True, validators=[FileExtensionValidator(allowed_extensions=['PNG','JPEG','WebP','JPG'])])
-    image_thumbnail = ImageSpecField(source='image',
-                                     processors=[ResizeToFill(100, 100)],
-                                     format='JPEG',
-                                     options={'quality': 60})
+    image = models.ImageField(
+        upload_to="avatars/",
+        null=True,
+        blank=True,
+        validators=[
+            FileExtensionValidator(allowed_extensions=["PNG", "JPEG", "WebP", "JPG"])
+        ],
+    )
+    image_thumbnail = ImageSpecField(
+        source="image",
+        processors=[ResizeToFill(100, 100)],
+        format="JPEG",
+        options={"quality": 60},
+    )
     email = models.EmailField(unique=True, validators=[validate_email])
     location = models.CharField(max_length=255, null=True, blank=True)
-    type = models.CharField(
-        max_length=8, choices=Type.choices, default=Type.LEAD)
+    type = models.CharField(max_length=8, choices=Type.choices, default=Type.LEAD)
     contact_id = models.BigIntegerField(
-        unique=True, null=True, blank=True, editable=False)
+        unique=True, null=True, blank=True, editable=False
+    )
     date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
-    name = models.CharField(max_length=512, null=True,
-                            blank=True, editable=False)
+    name = models.CharField(max_length=512, null=True, blank=True, editable=False)
 
     class Meta:
         ordering = ["name"]
 
     def __str__(self):
-        return self.first_name.title() + ' ' + self.last_name.title()
+        return self.first_name.title() + " " + self.last_name.title()
 
     def save(self, *args, **kwargs):
         self.name = f"{self.first_name.lower()} {self.last_name.lower()}"
         if not self.contact_id:
-            last_contact = Contact.objects.order_by('-contact_id').first()
+            last_contact = Contact.objects.order_by("-contact_id").first()
             if last_contact:
                 next_id = last_contact.contact_id + 1
             else:
@@ -58,14 +63,14 @@ class Contact(models.Model):
 class LeadManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Type.LEAD)
+        queryset = queryset.filter(type=Contact.Type.LEAD)
         return queryset
 
 
 class Lead(Contact):
     class Meta:
         proxy = True
+
     objects = LeadManager()
 
     def get_absolute_url(self):
@@ -75,14 +80,14 @@ class Lead(Contact):
 class ProspectManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Type.PROSPECT)
+        queryset = queryset.filter(type=Contact.Type.PROSPECT)
         return queryset
 
 
 class Prospect(Contact):
     class Meta:
         proxy = True
+
     objects = ProspectManager()
 
     def get_absolute_url(self):
@@ -92,14 +97,14 @@ class Prospect(Contact):
 class CustomerManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Type.CUSTOMER)
+        queryset = queryset.filter(type=Contact.Type.CUSTOMER)
         return queryset
 
 
 class Customer(Contact):
     class Meta:
         proxy = True
+
     objects = CustomerManager()
 
     def get_absolute_url(self):
