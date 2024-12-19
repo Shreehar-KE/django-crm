@@ -3,6 +3,7 @@ import random
 import urllib
 
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -158,11 +159,15 @@ class DashboardView(ListView):
         return context
 
 
-class ContactCreateView(MessageMixin, CreateView):
+class ContactCreateView(LoginRequiredMixin, MessageMixin, CreateView):
     form_class = ContactForm
     template_name = "a_contacts/contact_create.html"
     success_message = "Contact created successfully"
     error_message = "Failed to create contact"
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
 
 def fillContactForm(request):

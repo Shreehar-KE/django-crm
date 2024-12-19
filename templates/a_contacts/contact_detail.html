@@ -30,8 +30,20 @@
             {{ contact.type }}</dd>
         </div>
         <div>
-          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Location</dt>
-          <dd class="mb-4 font-light text-gray-500 sm:mb-5 ">{{ contact.location }}</dd>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Location</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5 text-right">{{ contact.location }}</dd>
+        </div>
+      </dl>
+      <dl class="flex items-center justify-between space-x-6">
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Created By</dt>
+          <dd
+            class="mb-4 font-light text-gray-500 sm:mb-5">
+            {{ contact.created_by.username }}</dd>
+        </div>
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Created On</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5 text-right">{{ contact.date_time_added }}</dd>
         </div>
       </dl>
       <div class="flex items-center space-x-4">

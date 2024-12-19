@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.conf import settings
 from django.core.validators import FileExtensionValidator, validate_email
 from django.urls import reverse
 from imagekit.models import ImageSpecField
@@ -38,6 +39,7 @@ class Contact(models.Model):
     )
     date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
     name = models.CharField(max_length=512, null=True, blank=True, editable=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         ordering = ["name"]
