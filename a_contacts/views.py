@@ -4,6 +4,7 @@ import urllib
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -27,7 +28,7 @@ def homePageView(request):
         return render(request, "home.html", context)
 
 
-class DashboardView(ListView):
+class DashboardView(LoginRequiredMixin, ListView):
     model = Contact
     search_text = ""
     selected_filters = []
@@ -169,7 +170,7 @@ class ContactCreateView(LoginRequiredMixin, MessageMixin, CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
-
+@login_required
 def fillContactForm(request):
     faker = Faker()
     fake_name = faker.name()
@@ -190,7 +191,7 @@ def fillContactForm(request):
     return render(request, "partials/contact_form.html", {"form": form})
 
 
-class ContactUpdateView(MessageMixin, UpdateView):
+class ContactUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
     model = Contact
     form_class = ContactForm
     context_object_name = "contact"
@@ -199,12 +200,12 @@ class ContactUpdateView(MessageMixin, UpdateView):
     error_message = "Failed to update contact"
 
 
-class ContactDetailView(DetailView):
+class ContactDetailView(LoginRequiredMixin, DetailView):
     model = Contact
     context_object_name = "contact"
     template_name = "a_contacts/contact_detail.html"
 
-
+@login_required
 def contactBulkCreateView(request):
     if request.method == "GET" and request.headers.get("Hx-Request"):
         form = ContactBulkCreateForm()
@@ -240,7 +241,7 @@ def contactBulkCreateView(request):
     else:
         return redirect("a_contacts:dashboard")
 
-
+@login_required
 def contactBulkCreatePreview(request):
     valid_data = request.session.get("preview_data", [])
     invalid_data = request.session.get("invalid_data", [])
@@ -272,7 +273,7 @@ def contactBulkCreatePreview(request):
         },
     )
 
-
+@login_required
 def exportRandomDataCSV(request):
     if (
         "HTTP_REFERER" in request.META
@@ -310,7 +311,7 @@ def exportRandomDataCSV(request):
     else:
         return redirect("a_contacts:dashboard")
 
-
+@login_required
 def contactDeleteView(request, pk):
     contact = get_object_or_404(Contact, id=pk)
     origin_url = request.META["HTTP_REFERER"]
@@ -332,7 +333,7 @@ def contactDeleteView(request, pk):
         context["dashboard"] = True
     return render(request, "partials/contact_delete_confirm.html", context)
 
-
+@login_required
 def exportDataCSV(request):
     data = []
 
@@ -357,7 +358,7 @@ def exportDataCSV(request):
     response = JsonResponse(data, safe=False, status=status)
     return response
 
-
+@login_required
 def exportDataPDF(request):
     data = []
 
