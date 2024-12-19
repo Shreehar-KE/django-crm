@@ -12,7 +12,7 @@
   <title>{% block title %}{% endblock title %} Django CRM</title>
 </head>
 
-<body x-data="{showModal: false}" class="bg-slate-100 relative min-h-svh">
+<body x-data="{showModal: false}" class="bg-slate-100 relative min-h-svh pb-20">
 
   {% include 'includes/header.html' %}
 
@@ -20,7 +20,7 @@
   {% block layout %}
   {% endblock layout%}
 
-
+  <!-- Modal Block-->
   <div x-show="showModal" x-cloak id="popup-modal" tabindex="-1"
     class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-[90%] mx-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
     x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 scale-[70%]"

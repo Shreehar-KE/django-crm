@@ -7,11 +7,11 @@
 <section class="bg-white ">
   <div class="py-8 sm:py-16 px-4 mx-auto max-w-2xl ">
     <div class="flex flex-row items-center justify-between mb-8">
-    <h2 class="text-2xl font-bold text-gray-900 ">Create Contact</h2>
-    <a @click="showModal = true" hx-get="{% url 'a_contacts:contact-bulk-create'%}" hx-target="#modal" hx-swap="outerHTML"
-      class="cursor-pointer font-medium text-sm text-primary-500 hover:underline select-none">
-      Bulk Upload ?
-    </a>
+      <h2 class="text-2xl font-bold text-gray-900 ">Create Contact</h2>
+      <a @click="showModal = true" hx-get="{% url 'a_contacts:contact-bulk-create'%}" hx-target="#modal" hx-swap="outerHTML"
+        class="cursor-pointer font-medium text-sm text-primary-500 hover:underline select-none">
+        Bulk Upload ?
+      </a>
     </div>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}

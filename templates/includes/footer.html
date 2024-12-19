@@ -5,10 +5,12 @@
     <div class="flex items-end gap-1">
       {% include 'analytics/likes.html' %}
     </div>
-
+   
+    {% if user.is_authenticated  %} 
     <div class="flex items-end gap-1">
       {% include 'analytics/live_users.html' %}
     </div>
+    {% endif %}
     
     <div class="flex space-x-4 items-end">
       <a href="https://github.com/Shreehar-KE/django-crm" target="_blank" class="hover:text-gray-300">

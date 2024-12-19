@@ -3,7 +3,7 @@
   class="md:flex items-center justify-between [&>*]:px-8 h-16 bg-gray-800 text-white sticky top-0 z-50 select-none">
   <div class="flex items-center justify-between h-16">
     <logo>
-      <a class="flex items-center gap-1" href="{% url 'a_contacts:home' %}">
+      <a class="flex items-center gap-1" href="{% url 'a_contacts:dashboard' %}">
         <img class="h-6" src="{% static 'img/logo.svg' %}" alt="infinity-logo">
         <span class="font-sans font-extrabold">CRM</span>
       </a>
@@ -46,7 +46,7 @@
             alt="user-avatar">
           {% if user.is_authenticated %}
           {{ user.username }}
-          {% else %}  
+          {% else %}
           Guest User
           {% endif %}
           <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}"
