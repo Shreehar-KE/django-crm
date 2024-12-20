@@ -245,6 +245,7 @@ def contactBulkCreateView(request):
 def contactBulkCreatePreview(request):
     valid_data = request.session.get("preview_data", [])
     invalid_data = request.session.get("invalid_data", [])
+    user = request.user
 
     if request.method == "POST":
         for row in valid_data:
@@ -254,6 +255,7 @@ def contactBulkCreatePreview(request):
                 email=row["email"],
                 location=row["location"],
                 type=row["type"],
+                created_by = user,
             )
 
         request.session.pop("preview_data", None)
