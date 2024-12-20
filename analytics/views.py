@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+
+from .middleware import LiveUsersMiddleware
 from .models import Like
-from .middleware import ActiveUserMiddleware
 
 
 def like_view(request):
@@ -23,5 +23,5 @@ def get_client_ip(request):
 
 
 def live_users_view(request):
-    active_users = ActiveUserMiddleware.get_active_user_count()
-    return HttpResponse(active_users)
+    live_users = LiveUsersMiddleware.get_active_user_count()
+    return render(request,"partials/live_user_count.html",{"live_users":live_users})

@@ -91,7 +91,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "analytics.middleware.ActiveUserMiddleware",
+    "analytics.middleware.LiveUsersMiddleware",
     "accounts.middleware.ApprovalRequiredMiddleware",
     "a_contacts.middleware.HtmxMessagesMiddleware",
 ]
@@ -189,7 +189,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 SESSION_COOKIE_AGE = 300
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 LOGIN_REDIRECT_URL = "a_contacts:dashboard"
 ACCOUNT_LOGOUT_REDIRECT = "a_contacts:home"
