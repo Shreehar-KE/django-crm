@@ -9,20 +9,36 @@ class CustomUserAdmin(UserAdmin):
     list_display = [
         "email",
         "username",
-        "is_approved",
+        "approval_status",
     ]
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("is_approved",)}),)
+    list_filter = UserAdmin.list_filter + ("approval_status",)
+    actions = ["approve_users"]
+    fieldsets = UserAdmin.fieldsets + (
+        (
+            None,
+            {
+                "fields": (
+                    "approval_status",
+                    "is_approved",
+                )
+            },
+        ),
+    )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
             None,
             {
                 "fields": (
                     "email",
-                    "is_approved",
+                    "approval_status",
                 )
             },
         ),
     )
 
+    def approve_users(self, request, queryset):
+        queryset.update(approval_status="approved")
+
+    approve_users.short_description = "Approve selected users"
 
 admin.site.register(CustomUser, CustomUserAdmin)

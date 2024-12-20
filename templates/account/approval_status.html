@@ -1,0 +1,15 @@
+{% extends 'layouts/b.html' %}
+
+
+{% block title %}Approval Status -{% endblock title %}
+
+{% block content %}
+<section class="bg-white ">
+  <div class="py-8 sm:py-16 px-4 mx-auto max-w-2xl">
+    <h2 class="text-2xl font-bold text-gray-900 mb-8">Approval Status</h2>
+    <p>Your account's approval status is <strong>{{ approval_status }}</strong>. <br> Try again later or contact through
+      <a class="underline text-blue-500" href="https://www.linkedin.com/in/shreehar-ke/" target="_blank">LinkedIn</a> to get immediate access.
+    </p>
+  </div>
+</section>
+{% endblock content%}

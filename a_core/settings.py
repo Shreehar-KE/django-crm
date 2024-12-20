@@ -92,6 +92,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "analytics.middleware.ActiveUserMiddleware",
+    "accounts.middleware.ApprovalRequiredMiddleware",
     "a_contacts.middleware.HtmxMessagesMiddleware",
 ]
 
