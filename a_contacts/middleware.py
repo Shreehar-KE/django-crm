@@ -21,6 +21,5 @@ class HtmxMessagesMiddleware:
                 request=request,
             ).encode("utf-8")
             response["Content-Type"] = "text/html"
-            print(messages)
 
         return response
