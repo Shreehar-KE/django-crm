@@ -28,9 +28,8 @@ class LiveUsersMiddleware:
             session.expire_date = now() + timedelta(
                 seconds=request.session.get_expiry_age()
             )
-            print(f"Session Updated: Key={session_key}, Expiry={session.expire_date}")
         except Session.DoesNotExist:
-            print(f"Session Does Not Exist: Key={session_key}")
+            pass
 
     @staticmethod
     def get_active_user_count():
