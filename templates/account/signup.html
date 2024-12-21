@@ -11,12 +11,20 @@
     <form method="post">
       {% csrf_token %}
       {{ form|crispy }}
+      <div class="flex flex-row items-center justify-between">
+      <div>
       <button type="submit"
         class="w-[80px]  px-2 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-500 rounded-lg hover:bg-primary-700 select-none transition-transform duration-300 active:scale-95">
         Sign Up
       </button>
       <a class="w-[80px] justify-center inline-flex items-center px-4 py-2 ml-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-400 rounded-lg hover:bg-red-500 select-none transition-transform duration-300 active:scale-95"
         href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+      </div>
+      <a href="{% url 'account_login' %}"
+        class="mt-4 sm:mt-6 cursor-pointer font-medium text-sm text-primary-500 hover:underline select-none">
+        Login?
+      </a>
+      </div>
     </form>
   </div>
 </section>
