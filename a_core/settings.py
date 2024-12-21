@@ -20,6 +20,7 @@ Env.read_env()
 
 ENVIRONMENT = env("ENVIRONMENT", default="production")
 
+ADMIN_NAME = env("ADMIN_NAME")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
