@@ -13,6 +13,10 @@ def like_view(request):
     return HttpResponse(likes_count)
 
 
+def get_likes_count_view(request):
+    likes_count = Like.objects.count()
+    return HttpResponse(likes_count)
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
     if x_forwarded_for:

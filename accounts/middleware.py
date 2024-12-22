@@ -11,6 +11,7 @@ class ApprovalRequiredMiddleware:
             if not request.user.is_approved and request.path not in [
                 reverse("accounts:approval_status"),
                 reverse("analytics:live-users"),
+                reverse("analytics:get-likes-count"),
                 reverse("analytics:like"),
                 reverse("account_logout"),
             ]:
