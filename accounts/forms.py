@@ -39,7 +39,7 @@ class CustomSignupForm(SignupForm):
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
-        if CustomUser.objects.filter(username=username).exists():
+        if CustomUser.objects.filter(username__iexact=username).exists():
             raise forms.ValidationError(
                 "An account with this username address already exists."
             )

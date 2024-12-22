@@ -357,6 +357,8 @@ def exportDataCSV(request):
         status = 204
         # messages.error(request, "CSV data failed to export.")
     response = JsonResponse(data, safe=False, status=status)
+    # response.htmx_toast = True
+
     return response
 
 @login_required
@@ -375,10 +377,13 @@ def exportDataPDF(request):
                     "type": contact.type,
                 }
             )
-        status = 200
-    # messages.success(request, "PDF data exported successfully.")
+        status = 200    
+        # messages.success(request, "PDF data exported successfully.")
+
     else:
-        status = 200
-    # messages.error(request, "PDF data failed to export.")
+        status = 204
+        # messages.error(request, "PDF data failed to export.")
     response = JsonResponse(data, safe=False, status=status)
+    # response.htmx_toast = True
+
     return response
