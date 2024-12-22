@@ -24,8 +24,7 @@ def homePageView(request):
     if request.user.is_authenticated:
         return redirect("a_contacts:dashboard")
     else:
-        context = {"likes": Like.objects.count()}
-        return render(request, "home.html", context)
+        return render(request, "home.html")
 
 
 class DashboardView(LoginRequiredMixin, ListView):
