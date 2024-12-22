@@ -3,6 +3,8 @@
 {% load i18n %}
 {% block content %}{% autoescape off %}{% user_display user as user_display %}
 {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
-You're receiving this email because a new user ({{ user_display }}) has given your email address to register an account on {{ site_domain }}.
-To confirm this is correct, go to {{ activate_url }}
+You're receiving this email because a new user ({{ user_display }}) has given your email address to register an account on {{ site_name }}.
+To confirm this, go to {{ activate_url }}
+
+{% blocktrans %}This can be safely ignored if you did not sign up for an account.{% endblocktrans %}
 {% endblocktrans %}{% endautoescape %}{% endblock %}
