@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from allauth.account.forms import SignupForm
 from allauth.account.forms import ResetPasswordKeyForm, ChangePasswordForm
@@ -42,6 +43,11 @@ class CustomSignupForm(SignupForm):
             raise forms.ValidationError(
                 "An account with this username address already exists."
             )
+        if username.lower() in settings.ACCOUNT_USERNAME_BLACKLIST:
+            raise forms.ValidationError(
+                "This username is not allowed."
+            )
+
         return username
 
 

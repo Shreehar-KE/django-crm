@@ -21,6 +21,8 @@ Env.read_env()
 ENVIRONMENT = env("ENVIRONMENT", default="production")
 
 ADMIN_NAME = env("ADMIN_NAME")
+ADMIN_URL = env("ADMIN_URL")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -201,9 +203,18 @@ ACCOUNT_FORMS = {
     "reset_password_from_key": "accounts.forms.CustomResetPasswordKeyForm",
     "change_password": "accounts.forms.CustomChangePasswordForm",
 }
+ACCOUNT_USERNAME_BLACKLIST = [
+    "admin",
+    "accounts",
+    "analytics",
+    "contact",
+    "profile",
+] + [ADMIN_NAME, ADMIN_URL]
 
-
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+if ENVIRONMENT == "production":
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "djangocrmproject@gmail.com"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "djangocrmproject@gmail.com"
