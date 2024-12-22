@@ -26,17 +26,17 @@ def send_approval_email(sender, instance, **kwargs):
                 recipient_list=[instance.email],
                 fail_silently=False,
             )
-    if (
-        previous_instance.approval_status != "rejected"
-        and instance.approval_status == "rejected"
-    ):
-        site_url = Site.objects.get_current().domain
-        print("Sending Email")
-        send_mail(
-            subject="Your Django CRM Account Has Been Rejected",
-            message=f'Dear {instance.username},\n\nYour Django CRM account has been rejected.\n\nThank you!',
-            html_message=f'Dear {instance.username},\n\nYour Django CRM account has been rejected. For further info, reach out on <a class="underline text-blue-500" href="https://www.linkedin.com/in/shreehar-ke/" target="_blank">LinkedIn</a>.\n\nThank you!',
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[instance.email],
-            fail_silently=False,
-        )
+        if (
+            previous_instance.approval_status != "rejected"
+            and instance.approval_status == "rejected"
+        ):
+            site_url = Site.objects.get_current().domain
+            print("Sending Email")
+            send_mail(
+                subject="Your Django CRM Account Has Been Rejected",
+                message=f'Dear {instance.username},\n\nYour Django CRM account has been rejected.\n\nThank you!',
+                html_message=f'Dear {instance.username},\n\nYour Django CRM account has been rejected. For further info, reach out on <a class="underline text-blue-500" href="https://www.linkedin.com/in/shreehar-ke/" target="_blank">LinkedIn</a>.\n\nThank you!',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[instance.email],
+                fail_silently=False,
+            )
