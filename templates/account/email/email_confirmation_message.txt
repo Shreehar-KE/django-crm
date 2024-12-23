@@ -6,5 +6,5 @@
 You're receiving this email because a new user ({{ user_display }}) has given your email address to register an account on {{ site_name }}.
 To confirm this, go to {{ activate_url }}
 
-{% blocktrans %}This can be safely ignored if you did not sign up for an account.{% endblocktrans %}
+This can be safely ignored if you did not sign up for an account.
 {% endblocktrans %}{% endautoescape %}{% endblock %}
