@@ -8,7 +8,7 @@ class ApprovalRequiredMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.is_authenticated and request.user.username != settings.ADMIN_NAME:
+        if request.user.is_authenticated:
             if not request.user.is_approved and request.path not in [
                 reverse("accounts:approval_status"),
                 reverse("analytics:live-users"),
@@ -16,5 +16,6 @@ class ApprovalRequiredMiddleware:
                 reverse("analytics:like"),
                 reverse("account_logout"),
             ]:
-                return redirect("accounts:approval_status")
+                if request.user.username != settings.ADMIN_NAME:
+                    return redirect("accounts:approval_status")
         return self.get_response(request)
