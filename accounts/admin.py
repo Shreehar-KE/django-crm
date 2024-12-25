@@ -7,9 +7,11 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = [
-        "email",
         "username",
+        "email",
         "approval_status",
+        "role",
+        "employee_id",
     ]
     list_filter = UserAdmin.list_filter + ("approval_status",)
     actions = ["approve_users"]
@@ -20,6 +22,9 @@ class CustomUserAdmin(UserAdmin):
                 "fields": (
                     "approval_status",
                     "is_approved",
+                    "image",
+                    "location",
+                    "role",
                 )
             },
         ),

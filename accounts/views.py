@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 
 def approval_status(request):
@@ -9,3 +10,6 @@ def approval_status(request):
         )
     else:
         return redirect("a_contacts:home")
+
+class EmployeeDetailView(TemplateView):
+    template_name = "404.html"
