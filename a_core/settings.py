@@ -23,6 +23,7 @@ ENVIRONMENT = env("ENVIRONMENT", default="production")
 ADMIN_NAME = env("ADMIN_NAME")
 ADMIN_URL = env("ADMIN_URL")
 
+MAINTENANCE = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -213,11 +214,11 @@ ACCOUNT_USERNAME_BLACKLIST = [
 
 if ENVIRONMENT == "production":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    DEFAULT_FROM_EMAIL = "djangocrmproject@gmail.com"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_USER = "djangocrmproject@gmail.com"
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "djangocrmproject@gmail.com"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "djangocrmproject@gmail.com"
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True

@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% if debug %}{% static 'css/style.css' %}{% else %}{% static 'css/style.min.css' %}{% endif %}">
+  <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/png">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
+  <script src="{% static '/js/htmx.min.js' %}"></script>
+  <title>Under Maintenance - Django CRM</title>
+</head>
+
+<body class="bg-slate-100 relative min-h-svh pb-20">
+
+  <header x-data="{ mobileNavOpen: false }"
+    class="md:flex items-center justify-between [&>*]:px-8 h-16 bg-gray-800 text-white sticky top-0 z-50 select-none">
+    <div class="flex items-center justify-between h-16">
+      <logo>
+        <a class="flex items-center gap-1" href="#">
+          <img class="h-6" src="{% static 'img/logo.svg' %}" alt="infinity-logo">
+          <span class="font-sans font-extrabold">CRM</span>
+        </a>
+      </logo>
+      <mobileicon class="md:hidden">
+        <a @click="mobileNavOpen = !mobileNavOpen"
+          class="size-12 flex items-center justify-center cursor-pointer select-none hover:bg-gray-700 rounded-lg">
+          <img x-show="!mobileNavOpen" class="size-6" src="{% static 'img/menu.svg' %}" alt="hamburger-menu">
+          <img x-show="mobileNavOpen" x-cloak class="size-6" src="{% static 'img/close.svg' %}" alt="close-button">
+        </a>
+      </mobileicon>
+    </div>
+    <nav x-show="mobileNavOpen" x-cloak
+      class="md:!block bg-gray-800 h-screen w-screen md:h-auto md:w-auto -mt-26 md:mt-0 absolute md:relative z-[-1]"
+      x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-96"
+      x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="duration-300 ease-out"
+      x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-96">
+      <ul class="flex items-center flex-col md:flex-row gap-8 md:gap-2 justify-center h-full -translate-y-10 md:translate-y-0">
+        {% if user.is_authenticated %}
+        <li x-data="{ dropdownOpen: false}" class="relative">
+          <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
+            Export
+            <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}"
+              alt="">
+          </a>
+          <div x-show="dropdownOpen" x-cloak class="absolute top-14 right-0 bg-gray-50 text-gray-700 shadow rounded-lg w-40 p-2 z-20"
+            x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+            x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
+            x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
+            <ul class="menulist [&>li:active]:bg-primary-200">
+              <li><a id="export-csv" href="#">Export CSV</a></li>
+              <li><a id="export-pdf" href="#">Export PDF</a></li>
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        <li x-data="{ dropdownOpen: false}" class="relative">
+          <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
+            <img class="h-6 outline-double outline-gray-700 rounded-full object-cover bg-primary-500" src="{% static 'img/user.svg'%}"
+              alt="user-avatar">
+            {% if user.is_authenticated %}
+            {{ user.username }}
+            {% else %}
+            Guest User
+            {% endif %}
+            <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}"
+              alt="">
+          </a>
+          <div x-show="dropdownOpen" x-cloak class="absolute top-14 right-0 bg-gray-50 text-gray-700 shadow rounded-lg w-40 p-2 z-20"
+            x-transition:enter="duration-300 ease-out" x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
+            x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="duration-300 ease-out"
+            x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
+            {% if user.is_authenticated %}
+            <ul class="menulist">
+              <li><a>My Profile</a></li>
+              <li class="hover:bg-red-200"><a href="#">Log Out</a></li>
+            </ul>
+            {% else %}
+            <ul class="menulist">
+              <li><a href="#">Log In</a></li>
+              <li class="hover:bg-green-200"><a href="#">Sign Up</a></li>
+            </ul>
+            {% endif %}
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class=" card mx-auto w-[90%] mt-6">
+  <section class="bg-white">
+    <div class="py-8 px-4 mx-auto max-w-screen-md text-center lg:py-16 lg:px-12">
+      <svg class="mx-auto mb-4 w-10 h-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path fill="currentColor"
+          d="M331.8 224.1c28.29 0 54.88 10.99 74.86 30.97l19.59 19.59c40.01-17.74 71.25-53.3 81.62-96.65c5.725-23.92 5.34-47.08 .2148-68.4c-2.613-10.88-16.43-14.51-24.34-6.604l-68.9 68.9h-75.6V97.2l68.9-68.9c7.912-7.912 4.275-21.73-6.604-24.34c-21.32-5.125-44.48-5.51-68.4 .2148c-55.3 13.23-98.39 60.22-107.2 116.4C224.5 128.9 224.2 137 224.3 145l82.78 82.86C315.2 225.1 323.5 224.1 331.8 224.1zM384 278.6c-23.16-23.16-57.57-27.57-85.39-13.9L191.1 158L191.1 95.99l-127.1-95.99L0 63.1l96 127.1l62.04 .0077l106.7 106.6c-13.67 27.82-9.251 62.23 13.91 85.39l117 117.1c14.62 14.5 38.21 14.5 52.71-.0016l52.75-52.75c14.5-14.5 14.5-38.08-.0016-52.71L384 278.6zM227.9 307L168.7 247.9l-148.9 148.9c-26.37 26.37-26.37 69.08 0 95.45C32.96 505.4 50.21 512 67.5 512s34.54-6.592 47.72-19.78l119.1-119.1C225.5 352.3 222.6 329.4 227.9 307zM64 472c-13.25 0-24-10.75-24-24c0-13.26 10.75-24 24-24S88 434.7 88 448C88 461.3 77.25 472 64 472z" />
+      </svg>
+      <h1 class="mb-4 text-4xl font-bold tracking-tight leading-none text-gray-900 lg:mb-6 md:text-5xl xl:text-6xl">Under
+        Maintenance</h1>
+      <p class="font-light text-gray-500 md:text-lg xl:text-xl">Try Again later or Follow at <a class="underline text-blue-500"
+          href="https://www.linkedin.com/in/shreehar-ke/">LinkedIn</a> for updates...</p>
+    </div>
+  </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-4 px-4 absolute bottom-0 w-full">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+  
+      <div class="flex items-end gap-1">
+        {% include 'analytics/likes.html' %}
+      </div>
+  
+      <div class="flex items-end gap-1">
+        {% include 'analytics/live_users.html' %}
+      </div>
+  
+      <div class="flex space-x-4 items-end">
+        <a href="https://github.com/Shreehar-KE/django-crm" target="_blank" class="hover:text-gray-300">
+          <img class="h-6" src="{% static 'img/github-dark.svg' %}" alt="GitHub" title="view source">
+        </a>
+        <a href="https://www.linkedin.com/posts/shreehar-ke_buildinpublic-devlog-django-activity-7260159084438425600-c3aT" target="_blank"
+          class="hover:text-gray-300">
+          <img class="h-6" src="{% static 'img/linkedin.svg' %}" alt="LinkedIn" title="follow devlog">
+        </a>
+        <a href="https://shreehar-ke.github.io/" target="_blank" title="visit portfolio"
+          class="text-xl/none font-bold text-white [&>span]:text-primary-500"><span>Shree</span>har</a>
+        </a>
+      </div>
+  
+    </div>
+  </footer>
+
+</body>
+
+</html>
