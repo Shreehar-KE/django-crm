@@ -2158,11 +2158,20 @@ ul.errorlist>li {
     font-size: 3rem;
     line-height: 1;
   }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 }
 
 @media (min-width: 1024px) {
   .lg\:mb-16 {
     margin-bottom: 4rem;
+  }
+
+  .lg\:mb-6 {
+    margin-bottom: 1.5rem;
   }
 
   .lg\:table-cell {
@@ -2216,6 +2225,16 @@ ul.errorlist>li {
   .xl\:px-48 {
     padding-left: 12rem;
     padding-right: 12rem;
+  }
+
+  .xl\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  }
+
+  .xl\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 
