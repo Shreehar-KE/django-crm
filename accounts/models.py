@@ -1,7 +1,8 @@
 import uuid
-from django.db import models
+
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator, validate_email
+from django.db import models
 from django.urls import reverse
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -35,8 +36,7 @@ class CustomUser(AbstractUser):
     employee_id = models.BigIntegerField(
         unique=True, null=True, blank=True, editable=False
     )
-    is_approved = models.BooleanField(
-        default=False, null=True, blank=True)
+    is_approved = models.BooleanField(default=False, null=True, blank=True)
     approval_status = models.CharField(
         max_length=20,
         choices=[
@@ -46,11 +46,12 @@ class CustomUser(AbstractUser):
         ],
         default="pending",
     )
+
     def save(self, *args, **kwargs):
         if self.approval_status in ["pending", "rejected"]:
             self.is_approved = False
         else:
-            self.is_approved= True
+            self.is_approved = True
         if not self.employee_id:
             self.employee_id = self.generate_employee_id()
         super().save(*args, **kwargs)
@@ -63,6 +64,12 @@ class CustomUser(AbstractUser):
 
     def generate_employee_id(self):
         return EmployeeIDCounter.get_next_employee_id()
+
+    def __str__(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return f"@{self.username}"
 
 
 class EmployeeIDCounter(models.Model):

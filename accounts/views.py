@@ -1,5 +1,9 @@
-from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.views.generic import DetailView, ListView, UpdateView
+
+from .models import CustomUser
+
 
 def approval_status(request):
     if request.user.is_authenticated and not request.user.is_approved:
@@ -11,5 +15,22 @@ def approval_status(request):
     else:
         return redirect("a_contacts:home")
 
-class EmployeeDetailView(TemplateView):
-    template_name = "404.html"
+
+class EmployeeListView(LoginRequiredMixin, ListView):
+    model = CustomUser
+    template_name = "employee/employee_list.html"
+    context_object_name = "employees"
+
+
+class EmployeeDetailView(DetailView):
+    model = CustomUser
+    template_name = "employee/employee_detail.html"
+    context_object_name = "employee"
+
+
+class EmployeeUpdateView(UpdateView):
+    pass
+
+
+def employeeDeleteView(request):
+    pass

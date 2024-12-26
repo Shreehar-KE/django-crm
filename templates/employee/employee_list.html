@@ -1,0 +1,62 @@
+{% extends 'layouts/a.html' %}
+{% load static %}
+
+{% block title %}Employees -{% endblock title %}
+
+{% block content %}
+<h2 class="text-2xl font-bold text-gray-900 text-center my-8">Employees List</h2>
+<main class="card mx-auto w-[90%] mt-6">
+  <div class="bg-white relative sm:rounded-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-500 mb-24">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+          <tr>
+            <th scope="col" class="hidden sm:table-cell px-4 py-3 select-none">S.No.</th>
+            <th scope="col" id="table" class="px-4 py-3 select-none">ID</th>
+            <th scope="col" class="px-4 py-3 select-none">Name</th>
+            <th scope="col" class="hidden sm:table-cell px-4 py-3 select-none">Email</th>
+            <th scope="col" class="hidden lg:table-cell px-4 py-3 select-none">Location</th>
+            <th scope="col" class="px-4 py-3 select-none">Role</th>
+            <!-- <th scope="col" class="px-4 py-3">
+              <span class="sr-only">Actions</span>
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for employee in employees %}
+          <tr class="border-b hover:bg-gray-100">
+            <td class="hidden w-4 sm:table-cell px-4 py-3">{{ forloop.counter }}</td>
+            <td class=" max-w-8 px-4 py-3">{{ employee.employee_id }}</td>
+            <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap ">
+              {% if employee.image %}
+              <img class="rounded-full h-10 w-10 border border-gray-300 object-cover hidden sm:block"
+                src="{{ employee.image_thumbnail.url }}" alt="">
+              {% else %}
+              <img class="rounded-full h-10 w-10 border border-gray-300 object-cover hidden sm:block"
+                src="{% static 'img/image-placeholder.png' %}" alt="">
+              {% endif %}
+              <a class="truncate" href="{{ employee.get_absolute_url }}" >{{employee}}</a>
+            </th>
+            <td class="hidden max-w-28 sm:table-cell px-4 py-3 truncate">{{employee.email}}</td>
+            <td class="hidden max-w-16 lg:table-cell px-4 py-3 truncate">
+              {% if employee.location %}
+              {{ employee.location }}
+              {% else %}
+              --
+              {% endif %}
+            </td>
+            <td class="w-8 px-4 py-3">
+              <span
+                class="inline-flex items-center rounded {% if employee.role == 'AGENT' %}bg-blue-200 text-blue-800{% elif employee.role == 'MANAGER' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %} px-2.5 py-0.5 text-xs font-medium">
+                {{employee.role}}
+              </span>
+            </td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+      <!-- <img id="spinner" src="{% static 'img/bars.svg' %}" class="mx-auto h-10 htmx-indicator" /> -->
+    </div>
+  </div>
+</main>
+{% endblock content%}

@@ -1,0 +1,49 @@
+{% extends 'layouts/b.html' %}
+{% load static %}
+
+{% block title %}Employee Detail -{% endblock title %}
+
+{% block content %}
+<section class="bg-white">
+  <div class="py-8 mx-auto md:max-w-[70%] md:py-16 flex flex-col md:flex-row items-center justify-between gap-10">
+    <div class="w-1/3">
+      {% if employee.image %}
+      <img class="object-contain border border-gray-300 size-fit" src="{{ employee.image.url }}" alt="">
+      {% else %}
+      <img class="object-contain border border-gray-300 size-fit" src="{% static 'img/image-placeholder.png' %}" alt="">
+      {% endif %}
+    </div>
+    <div class="w-2/3">
+      <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl ">{{ employee }}</h2>
+      <p class="mb-4 text-base font-normal leading-none text-gray-700 ">{{ employee.employee_id }}</p>
+      <hr>
+      <dl class="mt-4">
+        <dt class="mb-2 font-semibold leading-none text-gray-900">Email</dt>
+        <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{ employee.email }}</dd>
+      </dl>
+      <dl class="flex items-center justify-between space-x-6">
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Role</dt>
+          <dd
+            class="mb-4 text-sm font-medium px-2.5 py-0.5 rounded {% if employee.role == 'AGENT' %}bg-blue-200 text-blue-800{% elif employee.role == 'MANAGER' %}bg-yellow-200 text-yellow-800{% else %}bg-green-200 text-green-800{% endif %} sm:mb-5 ">
+            {{ employee.role }}</dd>
+        </div>
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Location</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5 text-right">
+            {% if employee.location %}
+            {{ employee.location }}
+            {% else %}
+            --
+            {% endif %}
+          </dd>
+        </div>
+      </dl>
+      <dl>
+          <dt class="mb-2 font-semibold leading-none text-gray-900">Joined On</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{ employee.date_joined }}</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+{% endblock content%}
