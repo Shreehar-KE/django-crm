@@ -1,8 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView, UpdateView
 
 from .models import CustomUser
+from .forms import EmployeeUpdateForm
 
 
 def approval_status(request):
@@ -29,8 +30,23 @@ class EmployeeDetailView(DetailView):
 
 
 class EmployeeUpdateView(UpdateView):
-    pass
+    model = CustomUser
+    form_class = EmployeeUpdateForm
+    template_name = "employee/employee_update.html"
+    context_object_name = "employee"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
-def employeeDeleteView(request):
-    pass
+def employeeDeleteView(request, pk):
+    user = get_object_or_404(CustomUser, id=pk)
+    origin_url = request.META["HTTP_REFERER"]
+
+    if request.method == "POST":
+        user.delete()
+        return redirect("a_contacts:home")
+    else:
+        context = {"user": user}
+        return render(request, "partials/user_delete_confirm.html", context)

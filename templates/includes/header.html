@@ -58,7 +58,7 @@
           x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-5">
           {% if user.is_authenticated %}
           <ul class="menulist">
-            <li><a>My Profile</a></li>
+            <li><a href="{% url 'accounts:employee-detail' user.pk %}">My Profile</a></li>
             <li class="hover:bg-red-200"><a href="{% url 'account_logout' %}">Log Out</a></li>
           </ul>
           {% else %}

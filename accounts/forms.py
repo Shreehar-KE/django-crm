@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.forms import ModelForm, TextInput, Select, FileInput
+from django.contrib.auth.forms import UserChangeForm
 from allauth.account.forms import SignupForm
 from allauth.account.forms import ResetPasswordKeyForm, ChangePasswordForm
 from .models import CustomUser
@@ -44,23 +45,54 @@ class CustomSignupForm(SignupForm):
                 "An account with this username address already exists."
             )
         if username.lower() in settings.ACCOUNT_USERNAME_BLACKLIST:
-            raise forms.ValidationError(
-                "This username is not allowed."
-            )
+            raise forms.ValidationError("This username is not allowed.")
 
         return username
 
 
-class CustomUserCreationForm(UserCreationForm):
+class EmployeeUpdateForm(ModelForm):
+    error_css_class = "error"
+
     class Meta:
         model = CustomUser
-        fields = (
-            "username",
-            "email",
-        )
-
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = CustomUser
-        fields = UserChangeForm.Meta.fields
+        fields = ["first_name", "last_name", "email", "location", "role", "image"]
+        widgets = {
+            "first_name": TextInput(
+                attrs={
+                    "id": "first-name",
+                    "class": "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5",
+                }
+            ),
+            "last_name": TextInput(
+                attrs={
+                    "id": "last-name",
+                    "class": "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5",
+                }
+            ),
+            "email": TextInput(
+                attrs={
+                    "id": "email",
+                    "class": "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5",
+                }
+            ),
+            "location": TextInput(
+                attrs={
+                    "id": "location",
+                    "class": "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5",
+                }
+            ),
+            "role": Select(
+                attrs={
+                    "id": "type",
+                    "class": "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5",
+                }
+            ),
+            "image": FileInput(
+                attrs={
+                    "id": "image-input",
+                    "class": "block w-full text-sm text-gray-900 border border-gray-300 p-1.5 rounded-lg cursor-pointer bg-gray-50 focus:outline-none",
+                    "x-ref": "fileInput",
+                    "@change": "previewImage($event)",
+                }
+            ),
+        }
