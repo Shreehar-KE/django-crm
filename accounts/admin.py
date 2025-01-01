@@ -46,4 +46,5 @@ class CustomUserAdmin(UserAdmin):
 
     approve_users.short_description = "Approve selected users"
 
+
 admin.site.register(CustomUser, CustomUserAdmin)

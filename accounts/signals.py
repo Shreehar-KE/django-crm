@@ -33,7 +33,7 @@ def send_approval_email(sender, instance, **kwargs):
             site_url = Site.objects.get_current().domain
             send_mail(
                 subject="Your Django CRM Account Has Been Rejected",
-                message=f'Dear {instance.username},\n\nYour Django CRM account signup has been rejected.\n\nThank you!',
+                message=f"Dear {instance.username},\n\nYour Django CRM account signup has been rejected.\n\nThank you!",
                 html_message=f'Dear {instance.username},\n\nYour Django CRM account signup has been rejected. For further info, reach out on <a class="underline text-blue-500" href="https://www.linkedin.com/in/shreehar-ke/" target="_blank">LinkedIn</a>.\n\nThank you!',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[instance.email],

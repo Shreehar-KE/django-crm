@@ -39,7 +39,9 @@ class Contact(models.Model):
     )
     date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
     name = models.CharField(max_length=512, null=True, blank=True, editable=False)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     class Meta:
         ordering = ["name"]

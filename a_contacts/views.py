@@ -169,11 +169,12 @@ class ContactCreateView(LoginRequiredMixin, MessageMixin, CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
+
 @login_required
 def fillContactForm(request):
     faker = Faker()
     fake_name = faker.name()
-    while fake_name.split()[0].endswith('.'):
+    while fake_name.split()[0].endswith("."):
         fake_name = faker.name()
 
     first_name = fake_name.split()[0]
@@ -205,6 +206,7 @@ class ContactDetailView(LoginRequiredMixin, DetailView):
     model = Contact
     context_object_name = "contact"
     template_name = "a_contacts/contact_detail.html"
+
 
 @login_required
 def contactBulkCreateView(request):
@@ -242,6 +244,7 @@ def contactBulkCreateView(request):
     else:
         return redirect("a_contacts:dashboard")
 
+
 @login_required
 def contactBulkCreatePreview(request):
     valid_data = request.session.get("preview_data", [])
@@ -256,7 +259,7 @@ def contactBulkCreatePreview(request):
                 email=row["email"],
                 location=row["location"],
                 type=row["type"],
-                created_by = user,
+                created_by=user,
             )
 
         request.session.pop("preview_data", None)
@@ -275,6 +278,7 @@ def contactBulkCreatePreview(request):
             "invalid_data": formatted_invalid_data,
         },
     )
+
 
 @login_required
 def exportRandomDataCSV(request):
@@ -316,6 +320,7 @@ def exportRandomDataCSV(request):
     else:
         return redirect("a_contacts:dashboard")
 
+
 @login_required
 def contactDeleteView(request, pk):
     contact = get_object_or_404(Contact, id=pk)
@@ -337,6 +342,7 @@ def contactDeleteView(request, pk):
     if "contact" not in origin_url:
         context["dashboard"] = True
     return render(request, "partials/contact_delete_confirm.html", context)
+
 
 @login_required
 def exportDataCSV(request):
@@ -365,6 +371,7 @@ def exportDataCSV(request):
 
     return response
 
+
 @login_required
 def exportDataPDF(request):
     data = []
@@ -381,7 +388,7 @@ def exportDataPDF(request):
                     "type": contact.type,
                 }
             )
-        status = 200    
+        status = 200
         # messages.success(request, "PDF data exported successfully.")
 
     else:
