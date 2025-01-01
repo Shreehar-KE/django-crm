@@ -1,7 +1,13 @@
 {% extends 'layouts/b.html' %}
 {% load static %}
 
-{% block title %}Employee Detail -{% endblock title %}
+{% block title %}
+{% if request.user == employee %}
+My Profile -
+{% else %}
+View Employee -
+{% endif %}
+{% endblock title %}
 
 {% block content %}
 <section class="bg-white">
