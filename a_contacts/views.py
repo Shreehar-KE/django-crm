@@ -173,6 +173,8 @@ class ContactCreateView(LoginRequiredMixin, MessageMixin, CreateView):
 def fillContactForm(request):
     faker = Faker()
     fake_name = faker.name()
+    while fake_name.split()[0].endswith('.'):
+        fake_name = faker.name()
 
     first_name = fake_name.split()[0]
     last_name = fake_name.split()[1]
@@ -286,6 +288,8 @@ def exportRandomDataCSV(request):
         for _ in range(10):
             fake_name = faker.name()
             first_name = fake_name.split()[0]
+            while fake_name.split()[0].endswith("."):
+                fake_name = faker.name()
             last_name = fake_name.split()[1]
             types = [Contact.Type.LEAD, Contact.Type.PROSPECT, Contact.Type.CUSTOMER]
 
