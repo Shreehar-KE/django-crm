@@ -50,16 +50,25 @@ class Contact(models.Model):
     def save(self, *args, **kwargs):
         self.name = f"{self.first_name.lower()} {self.last_name.lower()}"
         if not self.contact_id:
-            last_contact = Contact.objects.order_by("-contact_id").first()
-            if last_contact:
-                next_id = last_contact.contact_id + 1
-            else:
-                next_id = 1
-            self.contact_id = next_id
+            self.contact_id = self.generate_contact_id()
         super().save(*args, **kwargs)
+
+    def generate_contact_id(self):
+        return ContactIDCounter.get_next_contact_id()
 
     def get_absolute_url(self):
         return reverse("a_contacts:contact-detail", kwargs={"pk": self.pk})
+
+
+class ContactIDCounter(models.Model):
+    current_id = models.PositiveIntegerField(default=0)
+
+    @classmethod
+    def get_next_contact_id(cls):
+        counter, created = cls.objects.get_or_create(pk=1)
+        counter.current_id += 1
+        counter.save()
+        return counter.current_id
 
 
 class LeadManager(models.Manager):
