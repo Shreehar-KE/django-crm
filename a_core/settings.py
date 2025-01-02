@@ -190,7 +190,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-SESSION_COOKIE_AGE = 300
+SESSION_COOKIE_AGE = 1800
 
 LOGIN_REDIRECT_URL = "a_contacts:dashboard"
 ACCOUNT_LOGOUT_REDIRECT = "a_contacts:home"
