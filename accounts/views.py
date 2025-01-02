@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView, UpdateView
-from django.core.exceptions import PermissionDenied
 
 from .forms import EmployeeUpdateForm
 
@@ -31,7 +31,7 @@ class EmployeeDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "employee"
 
 
-class EmployeeUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
+class EmployeeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = get_user_model()
     form_class = EmployeeUpdateForm
     template_name = "employee/employee_update.html"
@@ -44,6 +44,7 @@ class EmployeeUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
 
 @login_required
 def employeeDeleteView(request, pk):

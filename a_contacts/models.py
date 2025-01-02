@@ -1,7 +1,8 @@
 import uuid
-from django.db import models
+
 from django.conf import settings
 from django.core.validators import FileExtensionValidator, validate_email
+from django.db import models
 from django.urls import reverse
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill

@@ -6,7 +6,6 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 
-
 @receiver(pre_save, sender=get_user_model())
 def send_approval_email(sender, instance, **kwargs):
     try:
