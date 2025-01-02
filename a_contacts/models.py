@@ -86,6 +86,26 @@ class ContactIDCounter(models.Model):
         return counter.current_id
 
 
+class Event(models.Model):
+    ACTION_CHOICES = [
+        ("CREATE_CONTACT", "Create Contact"),
+        ("UPDATE_CONTACT", "Update Contact"),
+        ("DELETE_CONTACT", "Delete Contact"),
+    ]
+
+    contact = models.ForeignKey(
+        Contact, on_delete=models.SET_NULL, related_name="events", null=True
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
+    )
+    action = models.CharField(max_length=50, choices=ACTION_CHOICES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.action.capitalize()} by {self.user} on {self.contact}"
+
+
 class LeadManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)

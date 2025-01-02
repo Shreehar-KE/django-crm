@@ -1,0 +1,51 @@
+{% extends 'layouts/a.html' %}
+{% load templatetags %}
+{% load static %}
+
+{% block title %}Events -{% endblock title %}
+
+{% block content %}
+<h2 class="text-2xl font-bold text-gray-900 text-center my-8">Events List</h2>
+<main class="card mx-auto w-[90%] mt-6">
+  <div class="bg-white relative sm:rounded-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-500 mb-24">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+          <tr>
+            <th scope="col" class="hidden sm:table-cell px-4 py-3 select-none">S.No.</th>
+            <th scope="col" class="px-4 py-3 select-none">Action</th>
+            <th scope="col" class="px-4 py-3 select-none">Contact ID</th>
+            <th scope="col" class="hidden lg:table-cell  px-4 py-3 select-none">Contact</th>
+            <th scope="col" class="px-4 py-3 select-none">Employee ID</th>
+            <th scope="col" class="hidden lg:table-cell  px-4 py-3 select-none">Employee</th>
+            <th scope="col" class="hidden sm:table-cell px-4 py-3 select-none">Timestamp</th>
+            <!-- <th scope="col" class="px-4 py-3">
+              <span class="sr-only">Actions</span>
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in events %}
+          <tr class="border-b {% if event.action == 'CREATE_CONTACT' %} bg-green-50 hover:bg-green-100 {% elif event.action == 'UPDATE_CONTACT' %} bg-blue-50 hover:bg-blue-100 {% else %} bg-red-50 hover:bg-red-100 {% endif%}">
+            <td class="hidden w-4 sm:table-cell px-4 py-3">{{ forloop.counter }}</td>
+            <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+              {{ event.action }}
+            </th>
+            <td class="px-4 py-3">
+              <a title="view contact" href="{{ event.contact.get_absolute_url }}">{{ event.contact.contact_id|format_contact_id }}</a>
+            </td>
+            <td class="hidden lg:table-cell px-4 py-3 truncate">{{ event.contact }}</td>
+            <td class="px-4 py-3">
+              <a title="view employee" href="{{ event.user.get_absolute_url }}">{{ event.user.employee_id }}</a>
+            </td>
+            <td class="hidden lg:table-cell px-4 py-3 truncate">{{ event.user }}</td>
+            <td class="hidden sm:table-cell px-4 py-3 truncate">{{ event.timestamp|date:'M d, Y H:i' }}</td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+      <!-- <img id="spinner" src="{% static 'img/bars.svg' %}" class="mx-auto h-10 htmx-indicator" /> -->
+    </div>
+  </div>
+</main>
+{% endblock content%}

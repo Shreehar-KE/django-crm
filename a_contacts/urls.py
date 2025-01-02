@@ -33,4 +33,5 @@ urlpatterns = [
     ),
     path("contact/export/csv", views.exportDataCSV, name="export-data-csv"),
     path("contact/export/pdf", views.exportDataPDF, name="export-data-pdf"),
+    path("events/", views.EventListView.as_view(), name="event-list"),
 ]

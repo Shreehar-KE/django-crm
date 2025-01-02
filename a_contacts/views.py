@@ -17,7 +17,7 @@ from analytics.models import Like
 
 from .forms import ContactBulkCreateForm, ContactForm
 from .mixins import MessageMixin
-from .models import Contact
+from .models import Contact, Event
 from .templatetags.templatetags import format_contact_id
 
 
@@ -172,6 +172,7 @@ class ContactCreateView(LoginRequiredMixin, MessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
+        form.instance.updated_by = self.request.user
         return super().form_valid(form)
 
 
@@ -205,6 +206,10 @@ class ContactUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
     template_name = "a_contacts/contact_update.html"
     success_message = "Contact updated successfully"
     error_message = "Failed to update contact"
+
+    def form_valid(self, form):
+        form.instance.updated_by = self.request.user
+        return super().form_valid(form)
 
 
 class ContactDetailView(LoginRequiredMixin, DetailView):
@@ -265,6 +270,7 @@ def contactBulkCreatePreview(request):
                 location=row["location"],
                 type=row["type"],
                 created_by=user,
+                updated_by=user,
             )
 
         request.session.pop("preview_data", None)
@@ -332,6 +338,7 @@ def contactDeleteView(request, pk):
     origin_url = request.META["HTTP_REFERER"]
 
     if request.method == "POST":
+        contact.updated_by = request.user
         contact.delete()
         if "contact" not in origin_url:
             messages.success(request, "Contact deleted successfully.")
@@ -403,3 +410,13 @@ def exportDataPDF(request):
     # response.htmx_toast = True
 
     return response
+
+
+class EventListView(LoginRequiredMixin, ListView):
+    model = Event
+    context_object_name = "events"
+    template_name = "a_contacts/event_list.html"
+
+    def get_queryset(self):
+        events = super().get_queryset()
+        return events.filter(contact__isnull=False)

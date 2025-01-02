@@ -25,7 +25,12 @@
       {% if user.is_authenticated %}
       <li>
         <a class="select-none navitem" href="{% url 'accounts:employee-list' %}">
-          View All Users
+          All Users
+        </a>
+      </li>
+      <li>
+        <a class="select-none navitem" href="{% url 'a_contacts:event-list' %}">
+          Events
         </a>
       </li>
       <li x-data="{ dropdownOpen: false}" class="relative">
