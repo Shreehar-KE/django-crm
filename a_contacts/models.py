@@ -17,6 +17,7 @@ class Contact(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=512, null=True, blank=True, editable=False)
     image = models.ImageField(
         upload_to="avatars/",
         null=True,
@@ -37,8 +38,8 @@ class Contact(models.Model):
     contact_id = models.BigIntegerField(
         unique=True, null=True, blank=True, editable=False
     )
-    date_time_added = models.DateTimeField(auto_now_add=True, editable=False)
-    name = models.CharField(max_length=512, null=True, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
