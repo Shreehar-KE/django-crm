@@ -11,15 +11,23 @@
     <dl class="flex items-center justify-around max-w-screen-md mx-auto text-gray-900">
       <div class="flex w-1/3 flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">{{ lead_count }}</dt>
-        <dd class="font-light text-gray-500">Leads</dd>
+        <dd class="font-light text-gray-500">Lead{{ lead_count|pluralize }}</dd>
       </div>
       <div class="flex w-1/3 flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">{{ prospect_count }}</dt>
-        <dd class="font-light text-gray-500">Prospects</dd>
+        <dd class="font-light text-gray-500">Prospect{{ prospect_count|pluralize }}</dd>
       </div>
       <div class="flex w-1/3 flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">{{ customer_count }}</dt>
-        <dd class="font-light text-gray-500">Customers</dd>
+        <dd class="font-light text-gray-500">Customer{{ customer_count|pluralize }}</dd>
+      </div>
+      <div class="flex w-1/3 flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">{{ manager_count }}</dt>
+        <dd class="font-light text-gray-500">Manager{{ manager_count|pluralize }}</dd>
+      </div>
+      <div class="flex w-1/3 flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">{{ agent_count }}</dt>
+        <dd class="font-light text-gray-500">Agent{{ agent_count|pluralize }}</dd>
       </div>
     </dl>
   </div>
