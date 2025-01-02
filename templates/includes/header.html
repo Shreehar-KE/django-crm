@@ -23,6 +23,11 @@
     x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-96">
     <ul class="flex items-center flex-col md:flex-row gap-8 md:gap-2 justify-center h-full -translate-y-10 md:translate-y-0">
       {% if user.is_authenticated %}
+      <li>
+        <a class="select-none navitem" href="{% url 'accounts:employee-list' %}">
+          View All Users
+        </a>
+      </li>
       <li x-data="{ dropdownOpen: false}" class="relative">
         <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
           Export
