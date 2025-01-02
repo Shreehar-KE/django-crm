@@ -1,10 +1,9 @@
 from allauth.account.forms import ChangePasswordForm, ResetPasswordKeyForm, SignupForm
 from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm
 from django.forms import FileInput, ModelForm, Select, TextInput
-
-from .models import CustomUser
 
 
 class CustomChangePasswordForm(ChangePasswordForm):
@@ -32,7 +31,7 @@ class CustomSignupForm(SignupForm):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if CustomUser.objects.filter(email=email).exists():
+        if get_user_model().objects.filter(email=email).exists():
             raise forms.ValidationError(
                 "An account with this email address already exists."
             )
@@ -40,7 +39,7 @@ class CustomSignupForm(SignupForm):
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
-        if CustomUser.objects.filter(username__iexact=username).exists():
+        if get_user_model().objects.filter(username__iexact=username).exists():
             raise forms.ValidationError(
                 "An account with this username address already exists."
             )
@@ -54,7 +53,7 @@ class EmployeeUpdateForm(ModelForm):
     error_css_class = "error"
 
     class Meta:
-        model = CustomUser
+        model = get_user_model()
         fields = ["first_name", "last_name", "email", "location", "role", "image"]
         widgets = {
             "first_name": TextInput(

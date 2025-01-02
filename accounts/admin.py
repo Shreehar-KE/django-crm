@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUser
+from django.contrib.auth import get_user_model
 
 
 class CustomUserAdmin(UserAdmin):
-    model = CustomUser
+    model = get_user_model()
     list_display = [
         "username",
         "email",
@@ -47,4 +47,4 @@ class CustomUserAdmin(UserAdmin):
     approve_users.short_description = "Approve selected users"
 
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(get_user_model(), CustomUserAdmin)

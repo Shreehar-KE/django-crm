@@ -3,6 +3,7 @@ import random
 import urllib
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
@@ -12,7 +13,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from faker import Faker
 
-from accounts.models import CustomUser
 from analytics.models import Like
 
 from .forms import ContactBulkCreateForm, ContactForm
@@ -153,8 +153,10 @@ class DashboardView(LoginRequiredMixin, ListView):
         context["lead_count"] = Contact.objects.filter(type="LEAD").count()
         context["prospect_count"] = Contact.objects.filter(type="PROSPECT").count()
         context["customer_count"] = Contact.objects.filter(type="CUSTOMER").count()
-        context["manager_count"] = CustomUser.objects.filter(role="MANAGER").count()
-        context["agent_count"] = CustomUser.objects.filter(role="AGENT").count()
+        context["manager_count"] = (
+            get_user_model().objects.filter(role="MANAGER").count()
+        )
+        context["agent_count"] = get_user_model().objects.filter(role="AGENT").count()
         context["search_text"] = self.search_text
         context["selected_filters"] = self.selected_filters
         context["likes"] = Like.objects.count()

@@ -1,13 +1,13 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from .models import CustomUser
 
 
-@receiver(pre_save, sender=CustomUser)
+@receiver(pre_save, sender=get_user_model())
 def send_approval_email(sender, instance, **kwargs):
     try:
         previous_instance = sender.objects.get(pk=instance.pk)

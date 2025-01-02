@@ -1,10 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView, UpdateView
 from django.core.exceptions import PermissionDenied
 
-from .models import CustomUser
 from .forms import EmployeeUpdateForm
 
 
@@ -20,19 +20,19 @@ def approval_status(request):
 
 
 class EmployeeListView(LoginRequiredMixin, ListView):
-    model = CustomUser
+    model = get_user_model()
     template_name = "employee/employee_list.html"
     context_object_name = "employees"
 
 
 class EmployeeDetailView(LoginRequiredMixin, DetailView):
-    model = CustomUser
+    model = get_user_model()
     template_name = "employee/employee_detail.html"
     context_object_name = "employee"
 
 
 class EmployeeUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
-    model = CustomUser
+    model = get_user_model()
     form_class = EmployeeUpdateForm
     template_name = "employee/employee_update.html"
     context_object_name = "employee"
@@ -48,7 +48,7 @@ class EmployeeUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
 @login_required
 def employeeDeleteView(request, pk):
     if request.user.pk == pk:
-        user = get_object_or_404(CustomUser, id=pk)
+        user = get_object_or_404(get_user_model(), id=pk)
 
         if request.method == "POST":
             user.delete()
