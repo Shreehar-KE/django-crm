@@ -1,9 +1,9 @@
+from allauth.account.forms import ChangePasswordForm, ResetPasswordKeyForm, SignupForm
 from django import forms
 from django.conf import settings
-from django.forms import ModelForm, TextInput, Select, FileInput
 from django.contrib.auth.forms import UserChangeForm
-from allauth.account.forms import SignupForm
-from allauth.account.forms import ResetPasswordKeyForm, ChangePasswordForm
+from django.forms import FileInput, ModelForm, Select, TextInput
+
 from .models import CustomUser
 
 
@@ -96,3 +96,7 @@ class EmployeeUpdateForm(ModelForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["role"].choices = [("MANAGER", "Manager"), ("AGENT", "Agent")]
