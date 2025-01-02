@@ -42,7 +42,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
     def approve_users(self, request, queryset):
-        queryset.update(approval_status="approved")
+        queryset.update(approval_status="approved", is_approved=True)
 
     approve_users.short_description = "Approve selected users"
 
