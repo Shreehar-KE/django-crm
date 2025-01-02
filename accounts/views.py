@@ -1,6 +1,8 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView, UpdateView
+from django.core.exceptions import PermissionDenied
 
 from .models import CustomUser
 from .forms import EmployeeUpdateForm
@@ -23,30 +25,36 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     context_object_name = "employees"
 
 
-class EmployeeDetailView(DetailView):
+class EmployeeDetailView(LoginRequiredMixin, DetailView):
     model = CustomUser
     template_name = "employee/employee_detail.html"
     context_object_name = "employee"
 
 
-class EmployeeUpdateView(UpdateView):
+class EmployeeUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = CustomUser
     form_class = EmployeeUpdateForm
     template_name = "employee/employee_update.html"
     context_object_name = "employee"
 
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
-
+@login_required
 def employeeDeleteView(request, pk):
-    user = get_object_or_404(CustomUser, id=pk)
-    origin_url = request.META["HTTP_REFERER"]
+    if request.user.pk == pk:
+        user = get_object_or_404(CustomUser, id=pk)
 
-    if request.method == "POST":
-        user.delete()
-        return redirect("a_contacts:home")
+        if request.method == "POST":
+            user.delete()
+            return redirect("a_contacts:home")
+        else:
+            context = {"user": user}
+            return render(request, "partials/user_delete_confirm.html", context)
     else:
-        context = {"user": user}
-        return render(request, "partials/user_delete_confirm.html", context)
+        raise PermissionDenied()
