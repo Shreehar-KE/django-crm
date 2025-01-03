@@ -32,9 +32,9 @@
             <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
               {{ event.action }}
             </th>
-            <td class="px-4 py-3 cursor-pointer select-none text-blue-900 underline">
+            <td class="px-4 py-3 select-none text-blue-900 underline">
               {% if event.contact.is_deleted %}
-              <a title="restore contact" @click="showModal = true" hx-get="{% url 'a_contacts:contact-restore' event.contact.pk %}"
+              <a class="cursor-pointer" title="restore contact" @click="showModal = true" hx-get="{% url 'a_contacts:contact-restore' event.contact.pk %}"
                 hx-target="#modal" hx-swap="outerHTML">
                 {{ event.contact.contact_id|format_contact_id }}
               </a>
@@ -43,7 +43,7 @@
               {% endif %}
             </td>
             <td class="hidden lg:table-cell px-4 py-3 truncate">{{ event.contact }}</td>
-            <td class="px-4 py-3 text-blue-900 underline">
+            <td class="px-4 py-3 text-blue-900 underline select-none">
               <a title="view employee" href="{{ event.user.get_absolute_url }}">{{ event.user.employee_id }}</a>
             </td>
             <td class="hidden lg:table-cell px-4 py-3 truncate">{{ event.user }}</td>

@@ -54,11 +54,13 @@
         <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="select-none navitem">
           <img class="h-6 outline-double outline-gray-700 rounded-full object-cover bg-primary-500" src="{% static 'img/user.svg'%}"
             alt="user-avatar">
-          {% if user.is_authenticated %}
-          {{ user.username }}
-          {% else %}
-          Guest User
-          {% endif %}
+          <span class="max-w-20 truncate">
+            {% if user.is_authenticated %}
+            {{ user.username }}
+            {% else %}
+            Guest User
+            {% endif %}
+          </span>
           <img x-bind:class="dropdownOpen ? 'rotate-180 duration-300' : '' " class="w-4 mt-1" src="{% static 'img/expand-arrow.svg' %}"
             alt="">
         </a>
