@@ -53,8 +53,14 @@ class EmployeeUpdateForm(ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ["first_name", "last_name", "email", "location", "role", "image"]
+        fields = ["username", "first_name", "last_name", "email", "location", "role", "image"]
         widgets = {
+            "username": TextInput(
+                attrs={
+                    "id": "username",
+                    "class": "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-500 block w-full p-2.5",
+                }
+            ),
             "first_name": TextInput(
                 attrs={
                     "id": "first-name",

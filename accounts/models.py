@@ -7,6 +7,7 @@ from django.urls import reverse
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+from .utils.validators import validate_username
 
 class CustomUser(AbstractUser):
 
@@ -15,6 +16,12 @@ class CustomUser(AbstractUser):
         MANAGER = "MANAGER", "Manager"
         AGENT = "AGENT", "Agent"
 
+    username = models.CharField(
+        max_length=40,
+        unique=True,
+        validators=[validate_username],
+        help_text="Username must be 3-40 characters, alphanumeric, and can include _ or . but cannot be started with _ or .",
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     image = models.ImageField(
         upload_to="employee-avatars/",

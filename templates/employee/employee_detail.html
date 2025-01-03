@@ -21,7 +21,8 @@ View Employee -
     </div>
     <div class="w-2/3">
       <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl ">{{ employee }}</h2>
-      <p class="mb-4 text-base font-normal leading-none text-gray-700 ">{{ employee.employee_id }}</p>
+      <p class="inline-block font-thin">@{{employee.username}}</p> -
+      <p class="inline-block mb-4 text-base font-normal leading-none text-gray-700 ">{{ employee.employee_id }}</p>
       <hr>
       <dl class="mt-4">
         <dt class="mb-2 font-semibold leading-none text-gray-900">Email</dt>
@@ -46,7 +47,7 @@ View Employee -
         </div>
       </dl>
       <dl>
-          <dt class="mb-2 font-semibold leading-none text-gray-900">Joined On</dt>
+          <dt class="mb-2 font-semibold leading-none text-gray-900">Joined at</dt>
           <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{ employee.date_joined }}</dd>
       </dl>
       {% if employee == request.user %}

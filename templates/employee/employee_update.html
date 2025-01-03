@@ -41,6 +41,11 @@ Edit Employee Profile -
             <p class="mt-1 text-xs text-gray-500 text-right" id="file_input_help">Supports only PNG, JPG or WEBP files.</p>
           </div>
         </div>
+        <div class="sm:col-span-2">
+          <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">Username</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
         <div class="w-full">
           <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>
           {{ form.first_name }}
