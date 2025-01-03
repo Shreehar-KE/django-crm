@@ -1,6 +1,5 @@
 from django import forms
-from django.core.validators import FileExtensionValidator
-from django.forms import FileInput, ModelForm, Select, TextInput, ValidationError
+from django.forms import FileInput, ModelForm, Select, TextInput
 
 from .models import Contact
 from .utils.validators import validate_csv_file_extension

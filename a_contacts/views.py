@@ -448,4 +448,3 @@ class EventListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         events = super().get_queryset()
         return events.filter(contact__isnull=False)
-        return events.filter(contact__isnull=False)

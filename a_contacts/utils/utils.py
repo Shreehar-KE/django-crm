@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from django.http import Http404
 
 
 def get_active_object_or_404(cls, *args, **kwargs):
