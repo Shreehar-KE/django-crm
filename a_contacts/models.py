@@ -4,8 +4,14 @@ from django.conf import settings
 from django.core.validators import FileExtensionValidator, validate_email
 from django.db import models
 from django.urls import reverse
+from django.utils.timezone import now
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+
+
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=True)
 
 
 class Contact(models.Model):
@@ -55,6 +61,9 @@ class Contact(models.Model):
         blank=True,
         related_name="updated_contacts",
     )
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    objects = models.Manager()
+    active_objects = ActiveManager()
 
     class Meta:
         ordering = ["name"]
@@ -73,6 +82,18 @@ class Contact(models.Model):
 
     def get_absolute_url(self):
         return reverse("a_contacts:contact-detail", kwargs={"pk": self.pk})
+
+    def soft_delete(self):
+        self.deleted_at = now()
+        self.save()
+
+    def restore(self):
+        self.deleted_at = None
+        self.save()
+
+    @property
+    def is_deleted(self):
+        return self.deleted_at is not None
 
 
 class ContactIDCounter(models.Model):

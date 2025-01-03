@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from faker import Faker
 
@@ -19,6 +19,7 @@ from .forms import ContactBulkCreateForm, ContactForm
 from .mixins import MessageMixin
 from .models import Contact, Event
 from .templatetags.templatetags import format_contact_id
+from .utils.utils import get_active_object_or_404
 
 
 def homePageView(request):
@@ -75,10 +76,10 @@ class DashboardView(LoginRequiredMixin, ListView):
         search_text_length = len(self.search_text)
 
         if self.selected_filters:
-            contacts = Contact.objects.filter(type__in=self.selected_filters)
+            contacts = Contact.active_objects.filter(type__in=self.selected_filters)
 
         else:
-            contacts = super().get_queryset()
+            contacts = Contact.active_objects.all()
 
         if self.sort_by:
             if self.order == "asc":
@@ -94,14 +95,14 @@ class DashboardView(LoginRequiredMixin, ListView):
                     id_length = len(q)
                 else:
                     self.is_result = False
-                    return Contact.objects.none()
+                    return Contact.active_objects.none()
                 if (id_length in (1, 2) and search_text_length == 4) or (
                     id_length >= 3 and search_text_length == id_length + 1
                 ):
                     queryset = contacts.filter(contact_id=q)
                 else:
                     self.is_result = False
-                    return Contact.objects.none()
+                    return Contact.active_objects.none()
 
             else:
                 parts = self.search_text.split()
@@ -127,7 +128,7 @@ class DashboardView(LoginRequiredMixin, ListView):
                 return queryset
             else:
                 self.is_result = False
-                return Contact.objects.none()
+                return Contact.active_objects.none()
         else:
             return contacts
 
@@ -150,9 +151,13 @@ class DashboardView(LoginRequiredMixin, ListView):
             context["next_page"] = None
             context["contacts"] = []
 
-        context["lead_count"] = Contact.objects.filter(type="LEAD").count()
-        context["prospect_count"] = Contact.objects.filter(type="PROSPECT").count()
-        context["customer_count"] = Contact.objects.filter(type="CUSTOMER").count()
+        context["lead_count"] = Contact.active_objects.filter(type="LEAD").count()
+        context["prospect_count"] = Contact.active_objects.filter(
+            type="PROSPECT"
+        ).count()
+        context["customer_count"] = Contact.active_objects.filter(
+            type="CUSTOMER"
+        ).count()
         context["manager_count"] = (
             get_user_model().objects.filter(role="MANAGER").count()
         )
@@ -211,11 +216,17 @@ class ContactUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
         form.instance.updated_by = self.request.user
         return super().form_valid(form)
 
+    def get_queryset(self):
+        return Contact.active_objects.all()
+
 
 class ContactDetailView(LoginRequiredMixin, DetailView):
     model = Contact
     context_object_name = "contact"
     template_name = "a_contacts/contact_detail.html"
+
+    def get_queryset(self):
+        return Contact.active_objects.all()
 
 
 @login_required
@@ -334,12 +345,15 @@ def exportRandomDataCSV(request):
 
 @login_required
 def contactDeleteView(request, pk):
-    contact = get_object_or_404(Contact, id=pk)
+    contact = get_active_object_or_404(Contact, id=pk)
+    # contact = Contact.objects.filter(deleted_at__isnull=True).get(id=pk)
+    # if not contact:
+    #     raise Http404
     origin_url = request.META["HTTP_REFERER"]
 
     if request.method == "POST":
         contact.updated_by = request.user
-        contact.delete()
+        contact.soft_delete()
         if "contact" not in origin_url:
             messages.success(request, "Contact deleted successfully.")
             response = HttpResponse("", status=200)
@@ -360,7 +374,7 @@ def contactDeleteView(request, pk):
 def exportDataCSV(request):
     data = []
 
-    contacts = Contact.objects.all()
+    contacts = contact.active_objects.all()
     if contacts:
         for contact in contacts:
             data.append(
@@ -388,7 +402,7 @@ def exportDataCSV(request):
 def exportDataPDF(request):
     data = []
 
-    contacts = Contact.objects.all()
+    contacts = contact.active_objects.all()
     if contacts:
         for contact in contacts:
             data.append(
@@ -419,4 +433,5 @@ class EventListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         events = super().get_queryset()
+        return events.filter(contact__isnull=False)
         return events.filter(contact__isnull=False)
