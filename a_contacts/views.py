@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from faker import Faker
@@ -346,6 +346,8 @@ def exportRandomDataCSV(request):
 
 @login_required
 def contactDeleteView(request, pk):
+    if not request.headers.get("Hx-Request") and request.method == "GET":
+        raise Http404
     contact = get_active_object_or_404(Contact, id=pk)
     origin_url = request.META["HTTP_REFERER"]
 
@@ -369,6 +371,8 @@ def contactDeleteView(request, pk):
 
 
 def contactRestoreView(request, pk):
+    if not request.headers.get("Hx-Request") and request.method == "GET":
+        raise Http404
     contact = get_object_or_404(Contact, id=pk)
     if request.method == "POST":
         contact.updated_by = request.user
