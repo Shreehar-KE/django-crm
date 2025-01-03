@@ -6,12 +6,11 @@ from .models import Contact, Event
 
 @receiver(post_save, sender=Contact)
 def track_contact_save(sender, instance, created, **kwargs):
-    action = "CREATE_CONTACT" if created else "UPDATE_CONTACT"
+    if created:
+        action = "CREATE_CONTACT"
+    else: 
+        action = "UPDATE_CONTACT"
+    if instance.is_deleted:
+        action = "DELETE_CONTACT"
     Event.objects.create(contact=instance, user=instance.updated_by, action=action)
 
-
-@receiver(pre_delete, sender=Contact)
-def track_contact_delete(sender, instance, **kwargs):
-    Event.objects.create(
-        contact=instance, user=instance.updated_by, action="DELETE_CONTACT"
-    )
