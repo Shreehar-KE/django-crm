@@ -54,6 +54,9 @@ class CustomUser(AbstractUser):
         default="pending",
     )
 
+    class Meta:
+        ordering = ["employee_id"]
+
     def save(self, *args, **kwargs):
         if self.approval_status in ["pending", "rejected"]:
             self.is_approved = False
