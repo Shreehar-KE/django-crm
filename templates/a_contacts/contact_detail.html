@@ -36,7 +36,7 @@
       </dl>
       <dl class="flex items-center justify-between space-x-6">
         <div>
-          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Created By</dt>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Created by</dt>
           <dd
             class="mb-4 font-light text-gray-500 sm:mb-5">
             {% if contact.created_by %}
@@ -47,13 +47,13 @@
           </dd>
         </div>
         <div>
-          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Created On</dt>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Created at</dt>
           <dd class="mb-4 font-light text-gray-500 sm:mb-5 text-right">{{ contact.created_at }}</dd>
         </div>
       </dl>
       <dl class="flex items-center justify-between space-x-6">
         <div>
-          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Last Updated By</dt>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 ">Last Updated by</dt>
           <dd class="mb-4 font-light text-gray-500 sm:mb-5">
             {% if contact.updated_by %}
             {{ contact.updated_by.username }}
@@ -63,7 +63,7 @@
           </dd>
         </div>
         <div>
-          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Last Updated On</dt>
+          <dt class="mb-2 font-semibold leading-none text-gray-900 text-right">Last Updated at</dt>
           <dd class="mb-4 font-light text-gray-500 sm:mb-5 text-right">{{ contact.updated_at }}</dd>
         </div>
       </dl>
