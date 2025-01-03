@@ -52,6 +52,7 @@ class Contact(models.Model):
         null=True,
         blank=True,
         related_name="created_contacts",
+        editable=False,
     )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
