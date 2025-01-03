@@ -112,6 +112,7 @@ class Event(models.Model):
         ("CREATE_CONTACT", "Create Contact"),
         ("UPDATE_CONTACT", "Update Contact"),
         ("DELETE_CONTACT", "Delete Contact"),
+        ("RESTORE_CONTACT", "Restore Contact"),
     ]
 
     contact = models.ForeignKey(
@@ -122,6 +123,9 @@ class Event(models.Model):
     )
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-timestamp",]
 
     def __str__(self):
         return f"{self.action.capitalize()} by {self.user} on {self.contact}"
