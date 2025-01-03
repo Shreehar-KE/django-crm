@@ -62,6 +62,7 @@ class Contact(models.Model):
         related_name="updated_contacts",
     )
     deleted_at = models.DateTimeField(null=True, blank=True)
+    last_action = models.CharField(max_length=50, null=True, blank=True, editable=False)
     objects = models.Manager()
     active_objects = ActiveManager()
 
@@ -85,10 +86,12 @@ class Contact(models.Model):
 
     def soft_delete(self):
         self.deleted_at = now()
+        self.last_action = Event.Action.DELETE
         self.save()
 
     def restore(self):
         self.deleted_at = None
+        self.last_action = Event.Action.RESTORE
         self.save()
 
     @property
@@ -108,12 +111,11 @@ class ContactIDCounter(models.Model):
 
 
 class Event(models.Model):
-    ACTION_CHOICES = [
-        ("CREATE_CONTACT", "Create Contact"),
-        ("UPDATE_CONTACT", "Update Contact"),
-        ("DELETE_CONTACT", "Delete Contact"),
-        ("RESTORE_CONTACT", "Restore Contact"),
-    ]
+    class Action(models.TextChoices):
+        CREATE = "CREATE_CONTACT", "Create Contact"
+        UPDATE = "UPDATE_CONTACT", "Update Contact"
+        DELETE = "DELETE_CONTACT", "Delete Contact"
+        RESTORE = "RESTORE_CONTACT", "Restore Contact"
 
     contact = models.ForeignKey(
         Contact, on_delete=models.SET_NULL, related_name="events", null=True
@@ -121,11 +123,13 @@ class Event(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
-    action = models.CharField(max_length=50, choices=ACTION_CHOICES)
+    action = models.CharField(max_length=50, choices=Action.choices)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["-timestamp",]
+        ordering = [
+            "-timestamp",
+        ]
 
     def __str__(self):
         return f"{self.action.capitalize()} by {self.user} on {self.contact}"

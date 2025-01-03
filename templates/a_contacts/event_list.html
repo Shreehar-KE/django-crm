@@ -26,7 +26,8 @@
         </thead>
         <tbody>
           {% for event in events %}
-          <tr class="border-b {% if event.action == 'CREATE_CONTACT' %} bg-green-50 hover:bg-green-100 {% elif event.action == 'UPDATE_CONTACT' %} bg-blue-50 hover:bg-blue-100 {% else %} bg-red-50 hover:bg-red-100 {% endif%}">
+          <tr
+            class="border-b {% if event.action == 'CREATE_CONTACT' or event.action == 'RESTORE_CONTACT' %} bg-green-50 hover:bg-green-100 {% elif event.action == 'UPDATE_CONTACT' %} bg-blue-50 hover:bg-blue-100 {% else %} bg-red-50 hover:bg-red-100 {% endif%}">
             <td class="hidden w-4 sm:table-cell px-4 py-3">{{ forloop.counter }}</td>
             <th scope="row" class="flex items-center gap-2 max-w-60 px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
               {{ event.action }}
