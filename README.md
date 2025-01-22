@@ -34,8 +34,10 @@ A web app for managing contacts using Django for the backend, HTMX for SPA funct
    ```
 4. **Run the project**
    ```
+   python manage.py makemigrations accounts
    python manage.py migrate
    python manage.py makemigrations a_contacts
+   python manage.py makemigrations analytics
    python manage.py migrate
    python manage.py createsuperuser
    python manage.py runserver
