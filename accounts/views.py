@@ -24,6 +24,11 @@ class EmployeeListView(LoginRequiredMixin, ListView):
     template_name = "employee/employee_list.html"
     context_object_name = "employees"
 
+    def get_queryset(self):
+        users = super().get_queryset()
+        approved_users = [user for user in users if user.is_approved]
+        return approved_users
+
 
 class EmployeeDetailView(LoginRequiredMixin, DetailView):
     model = get_user_model()
