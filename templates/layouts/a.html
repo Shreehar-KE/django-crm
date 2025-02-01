@@ -2,6 +2,12 @@
 
 {% block layout %}
 {% include 'includes/header.html' %}
+{% if show_profile_notification %}
+<div id="profile-notification" class="fixed top-16 left-0 right-0 bg-yellow-200 text-black font-light text-center py-2 z-40">
+  Your profile is incomplete. <a href="{% url 'accounts:employee-update' user.pk %}" class="underline">Complete it
+    now</a>.
+</div>
+{% endif %}
 
 {% block content %}
 {% endblock content%}

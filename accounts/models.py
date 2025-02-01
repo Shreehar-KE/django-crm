@@ -9,6 +9,7 @@ from imagekit.processors import ResizeToFill
 
 from .utils.validators import validate_username
 
+
 class CustomUser(AbstractUser):
 
     class Role(models.TextChoices):
@@ -74,6 +75,9 @@ class CustomUser(AbstractUser):
 
     def generate_employee_id(self):
         return EmployeeIDCounter.get_next_employee_id()
+
+    def is_profile_incomplete(self):
+        return not (self.first_name and self.last_name and self.image and self.location)
 
     def __str__(self):
         if self.first_name and self.last_name:
